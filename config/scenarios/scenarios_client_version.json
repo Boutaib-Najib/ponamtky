@@ -1,0 +1,262 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "date": "2026-02-18",
+    "description": "Scenario definitions for LLM-based classification of financial news provided by the client"
+  },
+"categories": 
+	[
+	{
+	"categoryCode": "CONDUCT",
+	"categoryName":"Conduct Risk",
+    "categoryDescription":"Alleged breaches of law or regulations by the bank, or business practices that negatively impact society, markets, investors, clients or the employees.",
+	"scenarios": [
+		{
+		"scenarioCode":"039_ABC",
+		"scenarioName":"Antibribery and corruption",
+		"shortDefinition":"This scenario occurs when the firm is prosecuted for corruption or violation of anti-bribery and anti-corruption laws in one of the jurisdictions where it operates. The two significant regulations are the UK Bribery Act under UK law, and the Foreign Corrupt Practices Act (FCPA) under US law. The UKBA legislates against both private corruption (e. g. the employee of a company) and public corruption (e. g. a government official). It defines several offences:-Active corruption-Passive corruption-Active bribery of a foreign official-Failure to prevent briberyThe FCPA contains:-Anti-bribery provisions, which concerns corrupt payments to foreign officials to obtain or retain business-Accounting provisions, which require companies to make and keep accurate books and records, and to devise andmaintain an adequate system of internal accounting controls. The accounting provisions also prohibit individualsand businesses from knowingly falsifying books and records or knowingly circumventing or failing to implement a systemof internal controls"
+		},
+		{
+		"scenarioCode":"001_ATC",
+		"scenarioName":"Anticompetitive and manipulative practices",
+		"shortDefinition":	"This scenario addresses the situation where the firm incurs material losses arising from currently unknown investigationsby regulators or authorities in relation with antitrust regulation breaches and/or market manipulation breaches. These two types of breach are covered by the same scenario as the two types of breach often arise of the same underlying conduct. Scope of market manipulation :Under the EU Market Abuse Regulation, market manipulation can comprise a wide range of activities including but not limited to:-Behavior or dissemination of information likely to give false or misleading signals as to the supply of, demand for, or priceof, a financial instrument or to secure the price of a financial instrument at an abnormal or artificial level.-Entering into a transaction, placing an order to trade or any other activity or behavior which affects or is likelyto affect the price of a financial instrument which employ a fictitious device or other form of deception or contrivance. Scope of antitrust laws:Most antitrust laws centre on two prohibitions. First, a prohibition on agreements that have the aim or effect ofpreventing, restricting or distorting competition. Second, a prohibition on abusing a dominant position/attempted monopolization. While there are often stand alone market manipulation matters, the largest fines and matters also have an antitrust aspect in our experience and history."},
+		{
+		"scenarioCode":"041_BSM",
+		"scenarioName":"Bank Sustainability Misrepresentation",
+		"shortDefinition":	"The BSM scenario exposes the bank to ESG losses through one of its disclosures, and two situations are considered. In the first situation, the disclosure distorts the reality of the bank's business and its ESG commitments. The bankis faced with regulatory fines for greenwashing. In the second situation, the disclosure correctly represents reality, but activists consider that the bank does notmeet society's expectations. The bank faces a settlement resulting from an ESG dispute."
+		},
+		{
+		"scenarioCode":"002_FNC",
+		"scenarioName":"Breach of AML, Terrorism Financing or Sanctions Regulations",
+		"shortDefinition":	"This scenario covers the situation where a violation of financial crimes regulations is attributed to the firm duringan investigation. In the US, this includes in particular :-BSA/AML-IEEPA Sanctions regulations"
+		},
+		{
+		"scenarioCode":"003_CAS",
+		"scenarioName":"Breach of Client Asset Segregation Rules",
+		"shortDefinition":	"The firm is fined for having breached the Client Asset Protection regulation. Since the financial crisis and thecollapse of Lehman Brothers, Regulation has been strengthened to ensure clients would recover their assets in duedelays without additional costs if a depositary bank or a global custodian or a sub custodian was going to default. Client Assets include 'Client Money' and 'Custody Assets'. An investigation would be originated in one jurisdiction and could involve several legal entities depending on thatjurisdiction. All assets held by the legal custodian could be exposed to non-compliance risk, regardless of where theyare actually held and which sub-custodian holds them."
+		},
+		{
+		"scenarioCode":"004_OVC",
+		"scenarioName":"Client Overcharging",
+		"shortDefinition":	"This scenario covers the two following situations:-The client is fully aware of the functionalities of the product he/she is purchasing, the product perfectly meetshis/her needs (and therefore this is not a mis-selling case), but the price is considered to be abusive compared tothe market price.-The firm has set up an unfair process in order to increase the fees paid by the clients."
+		},
+		{
+		"scenarioCode":"006_CMR",
+		"scenarioName":"Corporate Client Misrepresentation",
+		"shortDefinition":	"This scenario considers the situation where the firm is facing a large litigation consecutive to the bankruptcy of alarge counterparty. The examples of such situations are ENRON or WorldCom. It is important to note that this is note a boundary risk with credit risk, as the loss is not a credit loss but asettlement following a class action from shareholders."
+		},
+		{
+		"scenarioCode":"042_CSM",
+		"scenarioName":"Corporate Sustainability Misrepresentation",
+		"shortDefinition":	"This scenario considers the situation where the bank is exposed to ESG losses through its borrowing customers. The common situation is where the bank has participated in the financing of a project that causes environmentaldamage, and the bank's liability is sought. The extreme situation is an ESG equivalent of the Enron case: the client defaults as a result of an ESG dispute,and the shareholders of the client company claim compensation for their losses from the bank."
+		},
+		{
+		"scenarioCode":"007_CTE",
+		"scenarioName":"Customer Tax Evasion",
+		"shortDefinition":	"This scenario occurs when the firm is fined for failing to prevent customer tax evasion through a violation of a taxregulation in one of the jurisdictions where it operates. A typical case is Credit Suisse (2014) - $2. 6bn fine, settling with U. S. for helping people avoid paying taxes. Tax regulation violation requires that :(1):A client (individual or corporate) of the firm has engaged in criminal tax evasion.(2):An employee or a supplier of the firm has criminally facilitated the tax evasion.(3):The firm has failed to prevent the employee or supplier from committing the facilitation offence. As (1) is required for the scenario to occur, we will focus on business segments for which (1) is the most likely."
+		},
+		{
+		"scenarioCode":"043_ESA",
+		"scenarioName":"ESG Shareholder Class Action",
+		"shortDefinition":	"This scenario considers the situation where a shareholder class action lawsuit is brought against the bank due to afall in its market value as a result of alleged ESG misconduct. This scenario can be seen as the potential financial impact of a reputational problem caused by an ESG issue."
+		},
+		{
+		"scenarioCode":"008_FID",
+		"scenarioName":"Fund Improper Disclosure",
+		"shortDefinition":"The firm has allegedly omitted or misrepresented material facts to the fund's investors, whether fraudulently or not. Consequently, the firm faces legal action from a group of investors, the justice department, the fund's trustee, or aregulatory authority, who are seeking compensation. It is possible that these claims could be resolved through an out-of-court settlement or alternative dispute resolutionmethods."
+		},
+		{
+		"scenarioCode":"044_FSD",
+		"scenarioName":"Fund Improper Disclosure Sustainability",
+		"shortDefinition":	"This scenario considers the situation where the allocation of one of the funds managed by the Bank is not in line withthe ESG objectives of the fund, resulting in a class action lawsuit by investors."
+		},
+		{
+		"scenarioCode":"009_ILM",
+		"scenarioName":"Improper Loan Management",
+		"shortDefinition":	"The scenario covers the situation where the firm is sued for having allegedly mismanaged many loan holders during servicing process. The most famous case is the Mortgage Loan Servicing and Foreclosure abuse that followed the 2008's financial crisis. Any systematic issue related to the handling of specific groups of customers (e. g. Service members on Active Duty) couldlead to material legal litigations. This risk could be considered as a stress on Credit Risk since the lender would not recover the borrower debt in case of default."
+		},
+		{
+		"scenarioCode":"010_MSR",
+		"scenarioName":"Misselling Retail",
+		"shortDefinition":	"The scenario covers the situation where the firm has allegedly misrepresented or omitted material facts about a productthat was sold to many retail clients. It also considers situations where the product sold does not meet the clients?needs and requirements. Therefore, two types of wrongdoings are addressed:-The firm is misrepresenting the features of the product (misleading documentation etc.),-The firm is selling a clearly defined product to the wrong clients.-This scenario focuses on Retail business i. e. loans and their add-ons, credit cards etc. Only massive wrongdoings witha lot of clients are considered here. This scenario is one of a consistent set of 3 scenarios:1-Mis-selling Retail SSA addresses products designed by the personal banking department of the firm2-Mis-selling Wholesale SSA addresses products designed by the investment or corporate banking departments of the firm3-Fund improper disclosure SSA addresses products designed by the asset management department of the firm"
+		},
+		{
+		"scenarioCode":"011_MSW",
+		"scenarioName":"Misselling Wholesale",
+		"shortDefinition":	"The scenario covers the situation where the firm is has allegedly misrepresented or omitted material facts about a product designed by the investment banking department of the firm. The product might have been sold to many clients or to few wholesale clients, depending on its nature. It also considers situations where the product sold does not meet the clients? needs and requirements. Therefore, two types of wrongdoings are addressed:-The firm is misrepresenting the main features of the product (riskiness, etc.),-The firm is selling a clearly defined product to clients, but with a misalignment of the risk profile. This scenario is one of a consistent set of 3 scenarios:1-Mis-selling Retail SSA addresses products designed by the personal banking department of the firm2-Mis-selling Wholesale SSA addresses products designed by the investment or corporate banking departments of the firm3-Fund improper disclosure SSA addresses products designed by the asset management department of the firm"
+		}
+		]
+	},
+	{
+	"categoryCode":"CYBER",
+	"categoryName":"Cyber Risk",
+        "categoryDescription":"Deliberate and malicious attempt to compromise the confidentiality, integrity, or availability of computer systems, networks, or digital information. Cyber attacks can take various forms, including hacking, malware deployment, phishing, or denial-of-service attacks.",
+
+	"scenarios": [
+		{
+		"scenarioCode":"012_CDC",
+		"scenarioName":"Customer Data Compromise",
+		"shortDefinition":	"It considers the situation of a large compromise of customer data (typically above 100,000 records). The targeted Asset are the customer data, stored in one of the bank databases. This scenario explicitly excludes carddata which are covered by other scenarios. As this scenario is a specific instance of data theft, the typical Attackers would be criminal networks. The Access used to implement this attack can be the compromise of an employee profile, the compromise of a third partyor a direct access through the network."
+		},
+		{
+		"scenarioCode":"013_CYS",
+		"scenarioName":"Cyber Attack on Critical Service",
+		"shortDefinition":	"It considers typically a DDOS attack that makes a critical application or a group of those unavailable and limits orstops operations. The targeted Asset are the main bank services generating revenue, such as loans, cards, etc. As this scenario is a specific instance of sabotage, the typical Attackers would be hacktivists or foreign governments. Criminal networks are less likely to be involved in this scenario as sabotage is not the most lucrative attack. The Access used to implement this attack is the network."
+		},
+		{
+		"scenarioCode":"015_CDA",
+		"scenarioName":"Cyber Data Alteration",
+		"shortDefinition":	"It considers the situation of a sabotage on critical bank data (for instance customer balance data). The targeted Asset is one of the bank databases of which the integrity is critical for operations. As this scenario is a specific instance of sabotage, the typical Attackers would be Hacktivists or foreign Governments. Criminal networks are less likely to be involved in this scenario as sabotage is not the most lucrative attack, exceptin the case of ransomware attacks, which we can consider a special case of this scenario. The Access used to implement this attack can be the compromise of an employee profile having access to the considereddatabases, or a direct attack through the network."
+		},
+		{
+		"scenarioCode":"014_CFM",
+		"scenarioName":"Cyber Fund Misappropriation",
+		"shortDefinition":	"It considers a variety of attacks aimed at directly stealing funds from the banks. The targeted Asset are the funds accessible through ATM, transfers, client accounts etc. As this scenario targets directly accessible funds, the typical Attackers would be criminal networks. The Access used to implement this attack can vary. It is generally considered that cybercriminals will prepare theattack during months, spying through social engineering, viruses and malwares to understand processes and controls. Employees and third parties are the most exposed accesses."
+		}
+		]
+	},
+	{
+	"categoryCode":"DISRUPTION",
+	"categoryName":"Disruption",
+        "categoryDescription":"Unavailability of the bank's key resources not due to an attack against the bank, such as socio-political or technical events having an impact on employees, third parties, premises or IT assets.",
+	"scenarios": [
+		{
+		"scenarioCode":"019_BLD",
+		"scenarioName":"Building Destruction",
+		"shortDefinition":	"This scenario addresses a local disaster on one of the buildings critical to the firm. 3 types of local disasters areconsidered here because of their potential destructive consequences: terrorist attacks, industrial catastrophes, fires.-Critical building: High market value or large revenue generated.-Only large buildings that are not dedicated to datacenters are exposed to this scenario: Headquarters, business specific buildings etc.-Local events that would destroy and disrupt datacenters only are covered by the 'Datacenter Disruption' scenario-Regional events that could destroy and disrupt the bank premises are covered by the 'Regional Natural Disaster' scenario"
+		},
+		{
+		"scenarioCode":"016_CSD",
+		"scenarioName":"Critical Application Disruption",
+		"shortDefinition":	"This scenario is an IT related risk but is not a Cyber risk as it does not involve an attack. It can be considered as the non-intentional version of the Cyber Attack on Critical Service. The scenario considers the situation where a service or group of services that are critical to the firm business aremade unavailable because of a software or hardware issue. The interruption may be full or partial but limited in the time."
+		},
+		{
+		"scenarioCode":"017_DCT",
+		"scenarioName":"Datacenter Disruption",
+		"shortDefinition":	"This scenario is an IT-related risk but is not a cyber risk as it does not involve an attack. The scenario considers the outage of a data center that materially contributes to the firm business."
+		},
+		{
+		"scenarioCode":"018_PSD",
+		"scenarioName":"External Payment System Disruption",
+		"shortDefinition":	"This scenario is an IT-related risk but is not a cyber risk as it does not involve an attack. This scenario considers the unavailability of one of the external Payment Settlement Systems used by the bank. Although the bank cannot be held responsible for this external service interruption, it is assumed, as a matter ofprudence, that it should compensate customers in the first instance. Disruption of other banks' systems is out of this scenario scope. Liquidity problems that may arise during the shutdown are outside the scope of operational risk."
+		},
+		{
+		"scenarioCode":"020_NDR",
+		"scenarioName":"Natural Disaster - Regional",
+		"shortDefinition":	"This scenario deals with a regional disaster on a geographical area that concentrates a significant portion of the bank's assets or activities. The regional disasters covered in this scenario are those of concern to reinsurers:earthquake, windstorms, floods.-Floods: Only storm surges as considered as they could wipe out large areas. As such floods will only be considered as a potential secondary effect of windstorms.-Windstorms: Only Hurricane category windstorms would lead to material consequences"
+		},
+		{
+		"scenarioCode":"040_PDE",
+		"scenarioName":"Pandemic",
+		"shortDefinition":	"The pandemic scenario has been included in the banks oprisk scenario inventory for a long time, probably as a consequence of the 2009 H1N1 pandemic. This scenario was mainly considered as having an impact on the bank workforce and production. However, the recent and still ongoing COVID19 pandemic has shown that a pandemic is not only an oprisk scenario but astress on the economy as a whole. Therefore, the pandemic should be considered as:1-A stress on the economy, and therefore on all risks (credit, market, operational)2-A scenario on its own, for the fraction of the impact which is related to the bank workforce. As far as operational risk is concerned, the pandemic stress can increase the likelihood of several scenarios. Scenarios related to external or internal suppliers are exposed to the pandemic stress (Supplier Failure,Critical Service Disruption (IT), but other scenarios involving large scale customer complaints(for instance Fund Improper Disclosure) may also be subject to pandemic stress. The scenario represented in this XOI model is the 'traditional' version of the pandemic scenario, i. e. the impact of thepandemic on bank production and costs."
+		},
+		{
+		"scenarioCode":"021_SPF",
+		"scenarioName":"Supplier Failure",
+		"shortDefinition":	"This scenario considers the situation of technical failure or financial default of a key supplier of the firm."
+		}
+		]
+	
+	},
+	{
+	"categoryCode":"ERROR",
+	"categoryName":"Error Risk",
+        "categoryDescription":"Unintentional discrepancy between what is intended or expected and what actually occurs, the source of which is human and which may occur in various processes, procedures, models, data, services or transactions.",
+	"scenarios": [
+		{
+		"scenarioCode":"022_CAF",
+		"scenarioName":"Corporate Action Failure",
+		"shortDefinition":	"Corporate actions, such as bonus issues, rights issues or initial public offerings, require (depending on the mandate)the fund manager or client to make an election to participate in or abstain from the respective corporate actions. Instructions are sent to the Fund Manager with the Broker. Due to the potential size of the underlying instruments, a failure to carry out the corporate action instructionsaccurately and in a timely manner could result in a significant missed opportunity and a liability to compensate the clients. The scenario considers such a situation, where a voluntary corporate action is not exercised as requested by the investors,resulting in a possible loss for them. In general, the scenario can occur in:-Asset and Wealth Management-Brokerage"
+		},
+		{
+		"scenarioCode":"023_LPE",
+		"scenarioName":"Lending Process Error",
+		"shortDefinition":	"This scenario covers the situation where the firm has failed (collateral checking, incorrect documentation, missing review etc.) during the setup or the management of a set of loans. Note on boundary risk: Although the consequence of this scenario is a credit loss, it is due to an operational error. Therefore, the amount of credit losses should be allocated to operational risk."
+		},
+		{
+		"scenarioCode":"036_PME",
+		"scenarioName":"Pricing Model Error",
+		"shortDefinition":	"This scenario covers the consequences of an error in the valuation of a derivative position."
+		},
+		{
+		"scenarioCode":"037_RME",
+		"scenarioName":"Risk Model Error",
+		"shortDefinition":	"This scenario is a particular case of a Firm misrepresentation. In this version of this scenario, we have considered only an understatement of RWAs as the source of misrepresentation."
+		},
+		{
+		"scenarioCode":"038_TAE",
+		"scenarioName":"Trading Algorithm Error",
+		"shortDefinition":	"This scenario considers a trading algorithm that malfunctions and therefore accumulates abnormal market exposure, leading to market losses when the position is closed out."
+		},
+		{
+		"scenarioCode":"026_TRE",
+		"scenarioName":"Trading Error",
+		"shortDefinition":	"This scenario considers an error in manual capture or execution of a single market trade. It does not cover systematic errors or model errors covered in separate scenarios."
+		},
+		{
+		"scenarioCode":"027_WTE",
+		"scenarioName":"Wire Transfer Error",
+		"shortDefinition":	"The scenario covers the situation where a human error happens on a large value payment transfer issued by the firm. This scenario doesn't address a systematic error due to systems or applications that could impact many transfers togethernor it covers errors made by clients. Duplicate payments, although recovery times might be long, would be recovered without any loss for the beneficiary. However, an opportunity loss could be incurred by the source client. Therefore, this type of error is addressed as anamount error is the scenario."
+		}
+		]
+	},		
+	{
+	"categoryCode":"EXTERNAL_FRAUD",
+	"categoryName":"External Fraud Risk",
+        "categoryDescription":"Fraud attempted or perpetrated against the organisation by an external party without the involvement of an employee or affiliate of the organisation.",
+	"scenarios": [
+		{
+		"scenarioCode":"028_MCC",
+		"scenarioName":"Merchant / Processor Card Compromise",
+		"shortDefinition":	"This scenario is one of the cyber risk scenarios. It considers the compromise of card data through a large merchant orcard processor. The targeted Asset are the card data going through the merchant or card processor system. Compromised cards come from allissuers and the bank is only concerned in proportion to its share of the issuing market, with a special case if the bankacquires the compromised merchant. As this scenario targets directly card data which are directly marketable, the typical Attackers would be criminal networks. The Access used to implement this attack are the merchants and card processors. Card data compromise through employeesis analysed in the Internal Card Compromise scenario."
+		},
+		{
+		"scenarioCode":"029_WTX",
+		"scenarioName":"Wire Transfer External Fraud",
+		"shortDefinition":	"This scenario covers the occurrence of a fraud on a large value transfer perpetrated by an external fraudster. This scenario is therefore a sub scenario of the Cyber Attack Fund Misappropriation scenario. It is presented here inisolation to illustrate how scenarios can be modelled at different levels of granularity. Two main assumptions are made:-Whatever the method, this fraud is done with the involvement, intentionally or not, of an employee in position to makepayment transfers.-As the fraudster tries to remain undetected as long as possible, the amounts of the fraudulent transfers must not seemto be outliers compared to usual transfersThis scenario doesn't cover the situation where thousands of wire payments could be made, directly though an applicationwithout involvement of any employee."
+		}
+		]
+	},
+	{
+	"categoryCode":"INTERNAL_FRAUD",
+	"categoryName":"Internal Fraud Risk",
+        "categoryDescription":"Fraud attempted or perpetrated for personal gain by an internal party (or parties) against the organisation, i.e. an employee or affiliate of the organisation, including instances where an employee is acting in collusion with external parties.",
+	"scenarios": [
+		{
+		"scenarioCode":"030_ICC",
+		"scenarioName":"Internal Credit Card Compromise",
+		"shortDefinition":	"This scenario is one of the cyber risk scenarios. It considers the compromise of card data through an employee of the firm. The targeted Asset are the card data accessible by employees. These can be either cards issued by the company or cardsfrom other institutions through the compromise of the acquisition servers. As this scenario targets directly card data which are directly marketable, the typical Attackers would be criminal networks. The Access used to implement this attack is the employee of the firm. Card data compromise through third parties isanalysed in the Merchant Card Compromise scenario."
+		},
+		{
+		"scenarioCode":"031_URT",
+		"scenarioName":"Unauthorized or Rogue Trading",
+		"shortDefinition":	"This scenario considers a trader building a directional and unhedged position in order to accumulate profit."
+		},
+		{
+		"scenarioCode":"032_WTI",
+		"scenarioName":"Wire Transfer Internal Fraud",
+		"shortDefinition":	"This scenario covers the situation of a fraudulent wire transfer perpetrated by an internal employee. It does not cover cybersecurity related frauds that are adressed either by the 'Customer Fund Misappropriation' scenarioor by the more specific 'Wire Transfer External Fraud' scenario."
+		}
+		]
+	},
+	{
+	"categoryCode":"LEGAL",
+	"categoryName":"Legal Risk",
+        "categoryDescription":"Disagreement or conflict between the bank and an external party - business partner, customer - or an employee arising from differing interpretations of contractual obligations or other legal rights and obligations.",
+	"scenarios": [
+		{
+		"scenarioCode":"035_IPI",
+		"scenarioName":"IP Infringement",
+		"shortDefinition":	"The scenario covers the situation where the firm is sued for violating Intellectual Property Rights of a third party orsupplier and is found guilty or settle with the plaintiff. The scenario occurs if:-A lawsuit related to patent infringement is initiated against the firm,-The plaintiff is successful. The impact is the sum of Legal fees and Damage rewards:-Legal fees are defendant fees. However, plaintiff fees can also be paid by the defendant in case of fee shifting.-Damage rewards fees can be royalties, loss profit or both. The plaintiff is successful."
+		},
+		{
+		"scenarioCode":"034_WCA",
+		"scenarioName":"Workplace Class Action",
+		"shortDefinition":	"This scenario considers the occurrence of a new workplace class action filed by one or more employees and cover the following litigations:-Wage and Hours (FLSA)-Discrimination (gender and ethnicity)-Retirement Plans (ERISA) for employees of the firm only-Wrongful termination (class actions only)-Other class actions (FLSA, Statutory)Government enforced class actions (EEOC, DOL) are not considered specifically but rather through an increased probability of class action. The scenario explictly excludes:-Evaluation of provision for ongoing class actions-Individual litigations settlement. The scenario occurs if:-One employee (or a small group of employees) files a class action against the firm. The impact is the product:-[Number of plaintiffs joining the class action] x [Individual Settlement]"
+		}
+		]
+	}
+	]
+
+}
+

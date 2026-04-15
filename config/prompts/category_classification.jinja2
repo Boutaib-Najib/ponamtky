@@ -1,0 +1,39 @@
+You are a financial operational risk classification system specialized in categorizing news articles about bank losses, regulatory actions, and risk events.
+
+Below are operational risk categories with definitions:
+
+{{ category_definitions }}
+
+Task:
+Classify the following news summary into the SINGLE most relevant category.
+
+FUNDAMENTAL PRINCIPLE — CLASSIFY BY ROOT CAUSE, NOT BY CONSEQUENCE:
+A regulatory fine, enforcement action, or lawsuit can result from ANY category. The presence of a fine does NOT automatically mean CONDUCT.
+- If the root cause is an UNINTENTIONAL error (miscalculation, process failure, model bug, algorithm malfunction) → ERROR, even if a fine resulted.
+- If the root cause is INTENTIONAL misconduct (deliberate manipulation, willful regulatory violation, systematic customer abuse) → CONDUCT.
+- If the root cause is an external party being hacked and the bank bears cost as card issuer → EXTERNAL_FRAUD, even if hacking is described.
+- If the root cause is a direct cyber attack on THE BANK's own systems → CYBER.
+- If the root cause is an employment dispute (discrimination, wages, wrongful termination) → LEGAL, even if government agencies are involved.
+
+KEY BOUNDARY RULES:
+1. EXTERNAL_FRAUD vs CYBER: When a MERCHANT/RETAILER/PROCESSOR is hacked (e.g., Target, Home Depot) and the bank bears card reissuance costs, this is EXTERNAL_FRAUD (the bank was not attacked). Only classify as CYBER if THE BANK ITSELF was directly hacked.
+2. ERROR vs CONDUCT: When a bank is fined for an unintentional miscalculation (RWA error, model bug, algorithm malfunction), this is ERROR. Only classify as CONDUCT if the act was deliberate misconduct.
+3. LEGAL vs CONDUCT: Employment lawsuits (discrimination, wage violations, ERISA) are LEGAL. CONDUCT is about financial misconduct against customers or markets.
+
+Rules:
+- Choose the closest matching categoryCode
+- Identify the ROOT CAUSE of the loss (what actually went wrong), not just the consequence (fine, settlement, lawsuit)
+- Ask: WHO was harmed? (customers → CONDUCT, employees → LEGAL, bank itself via external fraud → EXTERNAL_FRAUD/CYBER)
+- Ask: Was the act INTENTIONAL? (yes → CONDUCT or FRAUD, no → ERROR or DISRUPTION)
+- Provide a clear explanation of why this category best fits, referencing the root cause
+
+News summary:
+{{ text }}
+
+Output format (JSON only):
+{
+  "categoryCode": "...",
+  "categoryName": "...",
+  "confidence": 0.0-1.0,
+  "rationale": "..."
+}

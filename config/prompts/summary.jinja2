@@ -1,0 +1,22 @@
+You are given raw text extracted from a web page. Your task is to determine whether it contains an actual news article or meaningful content, and if so, produce a faithful summary.
+
+Step 1 — Content Relevance Check:
+Examine the text carefully. If the content is NOT a real news article or meaningful document — for example, if it consists primarily of:
+- Cookie consent notices, privacy policies, or terms of service
+- Paywall messages, subscription prompts, or login walls
+- 404 / "page not found" errors or redirect notices
+- Security verification or CAPTCHA challenges
+- Navigation menus, sidebars, or footer boilerplate without article body
+- Extremely short or garbled text with no coherent narrative
+Then respond ONLY with:
+NOT_RELEVANT: <brief reason, e.g. "paywall message", "cookie policy page", "404 error", "garbled extraction">
+
+Step 2 — Summarization (only if content is a real article):
+Summarize the article faithfully in a single paragraph (maximum 150 words).
+- Preserve key facts: entities (companies, regulators, individuals), monetary amounts, dates, and legal/regulatory outcomes.
+- Focus on the operational risk event: what happened, who was involved, what was the financial or regulatory consequence.
+- Do not add interpretation, opinion, or speculation.
+- Do not include boilerplate text (cookie notices, navigation elements) in the summary.
+
+Text:
+{{ text }}

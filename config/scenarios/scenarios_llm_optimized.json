@@ -1,0 +1,1027 @@
+{
+  "metadata": {
+    "version": "3.0",
+    "date": "2025-07-23",
+    "description": "Optimized scenario definitions for LLM-based classification of financial news",
+    "optimization_goals": [
+      "Clear discriminant signals for pattern matching",
+      "Consistent structure across all scenarios",
+      "Detection-oriented language vs. compliance-oriented",
+      "Explicit exclusion criteria for boundary cases",
+      "Root-cause-first classification principle",
+      "Contrastive examples for confusing boundary scenarios"
+    ]
+  },
+  "categories": [
+    {
+      "categoryCode": "CONDUCT",
+      "categoryName": "Conduct Risk",
+      "categoryDescription": "Regulatory enforcement actions and fines for violations of financial regulations, systematic mistreatment of customers or markets (mis-selling, overcharging, market manipulation, AML failures), corruption, tax evasion facilitation, and ESG misrepresentation. Focus: Bank's business practices harming clients, markets, or regulatory compliance, typically resulting in regulatory fines, customer compensation programs, or class action settlements. Distinguisher: If the primary issue is a regulatory violation or systematic customer harm (even if employees involved), classify as CONDUCT. If an employee acts alone for personal gain without triggering regulatory action, classify as INTERNAL_FRAUD.",
+      "scenarios": [
+        {
+          "scenarioCode": "039_ABC",
+          "scenarioName": "Antibribery and Corruption",
+          "shortDefinition": "Financial institution prosecuted for bribery, corruption, or illegal kickback schemes under FCPA, UKBA, RESPA, or similar laws",
+          "keySignals": [
+            "bribery charges or investigation",
+            "corruption allegations",
+            "kickback scheme",
+            "illegal referral fees",
+            "RESPA violation",
+            "FCPA violation",
+            "UK Bribery Act breach",
+            "payments to government officials",
+            "illegal inducements",
+            "anti-corruption settlement"
+          ],
+          "typicalExample": "Bank fined $2bn for bribing foreign officials to secure contracts, or $25m for kickback scheme with title company to steer business",
+          "exclusions": [
+            "If only money laundering without bribery -> 002_FNC",
+            "If market manipulation or price fixing without bribes/kickbacks -> 001_ATC"
+          ],
+          "regulatoryFrameworks": ["FCPA", "UK Bribery Act", "RESPA"]
+        },
+        {
+          "scenarioCode": "001_ATC",
+          "scenarioName": "Anticompetitive and Manipulative Practices",
+          "shortDefinition": "Fines or settlements for antitrust violations, market manipulation, price fixing, or collusion",
+          "keySignals": [
+            "antitrust investigation",
+            "market manipulation charges",
+            "price fixing",
+            "collusion",
+            "cartel behavior",
+            "LIBOR rigging",
+            "FX manipulation",
+            "benchmark manipulation",
+            "anti-competitive practices"
+          ],
+          "typicalExample": "Bank fined $500m for colluding with competitors to fix foreign exchange rates",
+          "exclusions": [
+            "If only insider trading by employee -> 031_URT",
+            "If only bribery involved -> 039_ABC"
+          ],
+          "regulatoryFrameworks": ["EU Market Abuse Regulation", "Sherman Act", "Clayton Act"]
+        },
+        {
+          "scenarioCode": "041_BSM",
+          "scenarioName": "Bank Sustainability Misrepresentation",
+          "shortDefinition": "Fines or settlements for greenwashing in bank's own ESG disclosures or commitments",
+          "keySignals": [
+            "greenwashing allegations",
+            "ESG disclosure violation",
+            "sustainability report misrepresentation",
+            "climate commitment breach",
+            "green bond misuse",
+            "net-zero target failure",
+            "activist lawsuit on bank's ESG practices"
+          ],
+          "typicalExample": "Bank fined $100m for overstating its carbon neutrality achievements in annual reports",
+          "exclusions": [
+            "If about client's ESG issues -> 042_CSM",
+            "If about fund's ESG allocation -> 044_FSD",
+            "If shareholder lawsuit after ESG scandal -> 043_ESA"
+          ],
+          "regulatoryFrameworks": ["EU Taxonomy Regulation", "SEC Climate Disclosure Rules"]
+        },
+        {
+          "scenarioCode": "002_FNC",
+          "scenarioName": "Breach of AML, Terrorism Financing or Sanctions Regulations",
+          "shortDefinition": "Violations of anti-money laundering, counter-terrorism financing, or sanctions compliance requirements",
+          "keySignals": [
+            "AML violation",
+            "money laundering failure",
+            "sanctions breach",
+            "terrorism financing",
+            "BSA violation",
+            "KYC failure",
+            "suspicious activity reporting failure",
+            "OFAC sanctions violation",
+            "inadequate monitoring controls"
+          ],
+          "typicalExample": "Bank fined $1.9bn for failing to prevent money laundering by drug cartels through inadequate controls",
+          "exclusions": [
+            "If customer tax evasion is primary issue -> 007_CTE",
+            "If only bribery without laundering -> 039_ABC"
+          ],
+          "regulatoryFrameworks": ["Bank Secrecy Act", "OFAC Sanctions", "EU AML Directives"]
+        },
+        {
+          "scenarioCode": "003_CAS",
+          "scenarioName": "Breach of Client Asset Segregation Rules",
+          "shortDefinition": "Fines for failing to properly segregate or protect client money and custody assets",
+          "keySignals": [
+            "client asset segregation failure",
+            "custody rule violation",
+            "client money misuse",
+            "inadequate asset protection",
+            "commingling of funds",
+            "CASS breach"
+          ],
+          "typicalExample": "Broker fined $50m for failing to segregate $500m of client funds from firm's own accounts",
+          "exclusions": [
+            "If fraud or theft of client assets -> 029_WTX or 030_ICC",
+            "If improper fund disclosure -> 008_FID"
+          ],
+          "regulatoryFrameworks": ["FCA CASS Rules", "SEC Customer Protection Rule"]
+        },
+        {
+          "scenarioCode": "004_OVC",
+          "scenarioName": "Client Overcharging",
+          "shortDefinition": "Excessive fees or unfair pricing for services that were properly authorized and disclosed, resulting in customer refunds",
+          "keySignals": [
+            "excessive fees",
+            "overcharging customers",
+            "unfair pricing",
+            "hidden charges",
+            "fee manipulation",
+            "overdraft abuse"
+          ],
+          "typicalExample": "Bank refunds $300m to customers for charging excessive overdraft fees disclosed in terms but unfairly high",
+          "exclusions": [
+            "If product was mis-sold (wrong product for client) -> 010_MSR or 011_MSW",
+            "If charged for services without customer consent or enrollment -> 010_MSR",
+            "If fraud involved -> 029_WTX"
+          ],
+          "regulatoryFrameworks": ["Consumer Financial Protection Act"]
+        },
+        {
+          "scenarioCode": "006_CMR",
+          "scenarioName": "Corporate Client Misrepresentation",
+          "shortDefinition": "Liability from corporate client bankruptcy due to bank's involvement in client's financial misrepresentation",
+          "keySignals": [
+            "corporate client bankruptcy",
+            "Enron-type scandal",
+            "shareholder class action against bank",
+            "bank liability for client fraud",
+            "auditor failure",
+            "securities fraud involvement"
+          ],
+          "typicalExample": "Bank pays $2bn settlement to Enron shareholders for helping company hide debt and mislead investors",
+          "exclusions": [
+            "If pure credit loss from default -> Credit Risk (not operational)",
+            "If bank's own misrepresentation -> 037_RME",
+            "If ESG-related client default -> 042_CSM"
+          ],
+          "regulatoryFrameworks": ["Securities Act", "Sarbanes-Oxley Act"]
+        },
+        {
+          "scenarioCode": "042_CSM",
+          "scenarioName": "Corporate Sustainability Misrepresentation",
+          "shortDefinition": "Bank liability for financing projects causing environmental damage or for client's ESG-related default",
+          "keySignals": [
+            "environmental damage from financed project",
+            "bank liability for client ESG scandal",
+            "toxic waste financing",
+            "deforestation project backlash",
+            "client default due to ESG dispute",
+            "shareholder claim on ESG financing"
+          ],
+          "typicalExample": "Bank pays $200m settlement for financing pipeline project causing major oil spill",
+          "exclusions": [
+            "If bank's own ESG disclosure issue -> 041_BSM",
+            "If fund's ESG allocation problem -> 044_FSD",
+            "If shareholder action against bank -> 043_ESA"
+          ],
+          "regulatoryFrameworks": ["Equator Principles", "Paris Agreement Commitments"]
+        },
+        {
+          "scenarioCode": "007_CTE",
+          "scenarioName": "Customer Tax Evasion",
+          "shortDefinition": "Fines for helping customers evade taxes through undeclared accounts or fraudulent structures",
+          "keySignals": [
+            "tax evasion facilitation",
+            "undeclared offshore accounts",
+            "Swiss bank secrecy breach",
+            "helping clients hide assets",
+            "tax fraud enablement",
+            "DOJ tax settlement"
+          ],
+          "typicalExample": "Swiss bank pays $2.6bn for helping US clients hide assets and evade taxes",
+          "exclusions": [
+            "If money laundering is primary issue -> 002_FNC",
+            "If corporate client fraud -> 006_CMR"
+          ],
+          "regulatoryFrameworks": ["FATCA", "CRS Common Reporting Standard"]
+        },
+        {
+          "scenarioCode": "043_ESA",
+          "scenarioName": "ESG Shareholder Class Action",
+          "shortDefinition": "Shareholder lawsuit against bank due to share price drop following ESG misconduct revelation",
+          "keySignals": [
+            "shareholder class action",
+            "stock price drop after ESG scandal",
+            "investor lawsuit on ESG issues",
+            "securities fraud claim related to ESG",
+            "materiality of ESG disclosure failure"
+          ],
+          "typicalExample": "Shareholders sue bank for $500m after stock drops 30% following fossil fuel financing scandal",
+          "exclusions": [
+            "If regulatory fine for ESG disclosure -> 041_BSM",
+            "If specific project liability -> 042_CSM",
+            "If fund-related ESG issue -> 044_FSD"
+          ],
+          "regulatoryFrameworks": ["Securities Exchange Act Section 10(b)"]
+        },
+        {
+          "scenarioCode": "008_FID",
+          "scenarioName": "Fund Improper Disclosure",
+          "shortDefinition": "Omission or misrepresentation of material facts to fund investors, resulting in class action or settlement",
+          "keySignals": [
+            "fund disclosure violation",
+            "omission of material facts",
+            "misleading fund prospectus",
+            "hidden fund risks",
+            "performance misrepresentation",
+            "fee disclosure failure",
+            "investor class action"
+          ],
+          "typicalExample": "Asset manager pays $150m to investors for failing to disclose liquidity risks in bond fund",
+          "exclusions": [
+            "If ESG-specific fund misallocation -> 044_FSD",
+            "If retail banking product -> 010_MSR",
+            "If wholesale investment product -> 011_MSW"
+          ],
+          "regulatoryFrameworks": ["Investment Company Act", "MiFID II"]
+        },
+        {
+          "scenarioCode": "044_FSD",
+          "scenarioName": "Fund Improper Disclosure Sustainability",
+          "shortDefinition": "Fund allocation not aligned with ESG objectives, resulting in investor class action",
+          "keySignals": [
+            "ESG fund misallocation",
+            "green fund investing in fossil fuels",
+            "sustainability criteria breach",
+            "ESG rating manipulation",
+            "impact investing fraud",
+            "sustainable fund greenwashing"
+          ],
+          "typicalExample": "Green fund sued for $80m after investors discover 40% holdings in oil and gas companies",
+          "exclusions": [
+            "If general fund disclosure issue -> 008_FID",
+            "If bank's own ESG disclosure -> 041_BSM",
+            "If project financing issue -> 042_CSM"
+          ],
+          "regulatoryFrameworks": ["SFDR Sustainable Finance Disclosure Regulation"]
+        },
+        {
+          "scenarioCode": "009_ILM",
+          "scenarioName": "Improper Loan Management",
+          "shortDefinition": "Systematic mishandling of loan servicing, foreclosure abuse, or borrower mistreatment during the life of an active loan",
+          "keySignals": [
+            "foreclosure abuse",
+            "loan servicing failure",
+            "wrongful foreclosure",
+            "mortgage servicing scandal",
+            "robo-signing in foreclosure",
+            "borrower mistreatment during servicing",
+            "servicemembers rights violation",
+            "failed to honor loan modifications"
+          ],
+          "typicalExample": "Bank pays $10bn for foreclosure abuses and improper servicing during 2008 financial crisis",
+          "exclusions": [
+            "If lending process error during origination -> 023_LPE",
+            "If discriminatory lending -> 010_MSR",
+            "If selling bad debt or improper debt collection (not active loan servicing) -> 010_MSR"
+          ],
+          "regulatoryFrameworks": ["SCRA Servicemembers Civil Relief Act", "RESPA"]
+        },
+        {
+          "scenarioCode": "010_MSR",
+          "scenarioName": "Misselling Retail",
+          "shortDefinition": "Misrepresentation, deceptive marketing, or sale of unsuitable retail products (loans, credit cards, insurance, add-ons) to many customers, including enrollment without consent",
+          "keySignals": [
+            "retail mis-selling",
+            "payment protection insurance scandal",
+            "unsuitable product sales",
+            "predatory lending",
+            "credit card mis-selling",
+            "deceptive marketing",
+            "enrolled without consent",
+            "charged for services not authorized",
+            "add-on products mis-sold",
+            "retail customer compensation",
+            "mass retail redress"
+          ],
+          "typicalExample": "Bank pays £40bn in PPI compensation for selling payment protection insurance to customers who didn't need it, or charging for services without proper consent",
+          "exclusions": [
+            "If wholesale/investment product -> 011_MSW",
+            "If fund-related -> 008_FID",
+            "If only excessive pricing of properly disclosed services -> 004_OVC"
+          ],
+          "regulatoryFrameworks": ["Consumer Credit Act", "FCA Conduct of Business Rules"]
+        },
+        {
+          "scenarioCode": "011_MSW",
+          "scenarioName": "Misselling Wholesale",
+          "shortDefinition": "Misrepresentation or sale of unsuitable investment/corporate banking products to wholesale clients",
+          "keySignals": [
+            "wholesale mis-selling",
+            "complex derivatives mis-selling",
+            "RMBS mis-selling",
+            "structured products misrepresentation",
+            "institutional client lawsuit",
+            "investment banking product dispute"
+          ],
+          "typicalExample": "Bank pays $5bn for mis-selling mortgage-backed securities to institutional investors pre-2008",
+          "exclusions": [
+            "If retail product -> 010_MSR",
+            "If fund-related -> 008_FID",
+            "If corporate client fraud -> 006_CMR"
+          ],
+          "regulatoryFrameworks": ["Securities Act", "MiFID II"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "CYBER",
+      "categoryName": "Cyber Risk",
+      "categoryDescription": "Malicious cyber attacks by external threat actors (hackers, hacktivist groups, nation-states) targeting THE BANK'S OWN infrastructure, customer data, or funds. Includes data breaches of the bank's systems through hacking, DDoS attacks on the bank, ransomware on the bank, malware in the bank's network, SWIFT network compromise of the bank, and tampering with the bank's databases. CRITICAL REQUIREMENTS: (1) MUST involve intentional attack by external adversary using technical exploits, AND (2) THE BANK ITSELF must be the direct target of the attack. IMPORTANT EXCLUSION: When a THIRD PARTY (merchant, retailer, payment processor) is hacked and card data is stolen, this is NOT a Cyber Risk for the card-issuing bank — it is EXTERNAL_FRAUD (028_MCC), because the bank was not attacked; it merely bears financial losses as the card issuer responsible for reimbursing cardholders. Even if the article describes hacking techniques in detail, if the entity hacked is a merchant/retailer/processor and the bank's role is as card issuer bearing reissuance and fraud costs, classify as EXTERNAL_FRAUD. Distinguisher: If no intentional cyber attack (e.g., accidental data exposure, IT system failure, employee error), classify as DISRUPTION or ERROR instead. If employee intentionally steals data or funds without external hacking, classify as INTERNAL_FRAUD.",
+      "scenarios": [
+        {
+          "scenarioCode": "012_CDC",
+          "scenarioName": "Customer Data Compromise",
+          "shortDefinition": "Large-scale theft of customer data (>100k records) through a cyber attack directly targeting THE BANK'S OWN systems, excluding card data",
+          "keySignals": [
+            "data breach at the bank",
+            "bank's customer data stolen",
+            "hacking of bank systems",
+            "bank's database compromised",
+            "personal information compromised from bank",
+            "cyber attack on bank's network",
+            "millions of bank records exposed",
+            "identity theft risk from bank breach"
+          ],
+          "typicalExample": "JPMorgan reports that hackers breached ITS OWN systems, exposing personal data of 76 million households. The bank itself was the target of the attack → CYBER (012_CDC).",
+          "contrastiveExamples": [
+            {
+              "scenario": "028_MCC (EXTERNAL_FRAUD)",
+              "example": "Target's payment systems are hacked, exposing 40 million card numbers. Banks bear costs as card issuers → EXTERNAL_FRAUD because the bank was NOT attacked.",
+              "distinction": "In 012_CDC, the BANK is the direct target. In 028_MCC, a THIRD PARTY is hacked and the bank pays as card issuer."
+            }
+          ],
+          "exclusions": [
+            "If card data from a THIRD-PARTY merchant/processor → 028_MCC (EXTERNAL_FRAUD, not CYBER)",
+            "If no attack (accidental exposure or IT failure) → DISRUPTION, not cyber",
+            "If internal theft by employee without external hacking → 030_ICC (INTERNAL_FRAUD)"
+          ],
+          "attackVectors": ["Network intrusion into bank systems", "Employee credential compromise at the bank", "Third-party vendor compromise giving access to bank systems"]
+        },
+        {
+          "scenarioCode": "013_CYS",
+          "scenarioName": "Cyber Attack on Critical Service",
+          "shortDefinition": "DDoS or sabotage attack causing unavailability of critical banking services",
+          "keySignals": [
+            "DDoS attack",
+            "service outage due to cyber attack",
+            "banking systems down from hacking",
+            "online banking unavailable",
+            "cyber sabotage",
+            "ransomware disruption",
+            "hacktivists"
+          ],
+          "typicalExample": "Major bank's online services unavailable for 3 days due to DDoS attack by hacktivist group",
+          "exclusions": [
+            "If non-intentional IT failure -> 016_CSD",
+            "If data alteration instead of service disruption -> 015_CDA",
+            "If funds stolen -> 014_CFM"
+          ],
+          "attackVectors": ["DDoS", "Ransomware", "Network infrastructure attack"]
+        },
+        {
+          "scenarioCode": "015_CDA",
+          "scenarioName": "Cyber Data Alteration",
+          "shortDefinition": "Malicious alteration of critical bank data (balances, transactions) through cyber attack",
+          "keySignals": [
+            "data tampering",
+            "database corruption by hackers",
+            "ransomware data encryption",
+            "malicious data modification",
+            "integrity breach",
+            "account balance alteration"
+          ],
+          "typicalExample": "Hackers alter customer balances in database, requiring $200m to restore and compensate",
+          "exclusions": [
+            "If service disruption without alteration -> 013_CYS",
+            "If funds directly stolen -> 014_CFM",
+            "If accidental data corruption -> 016_CSD"
+          ],
+          "attackVectors": ["Database compromise", "Ransomware", "Employee credential compromise"]
+        },
+        {
+          "scenarioCode": "014_CFM",
+          "scenarioName": "Cyber Fund Misappropriation",
+          "shortDefinition": "Direct theft of funds through cyber attack (ATM hacking, fraudulent transfers, account takeover)",
+          "keySignals": [
+            "cyber theft",
+            "funds stolen by hackers",
+            "ATM malware",
+            "fraudulent wire transfer",
+            "account takeover",
+            "SWIFT attack",
+            "cyber heist"
+          ],
+          "typicalExample": "Hackers steal $81m through fraudulent SWIFT transfers after infiltrating bank network",
+          "exclusions": [
+            "If internal fraud -> 032_WTI",
+            "If external fraud with employee involvement but no cyber -> 029_WTX",
+            "If data theft without fund loss -> 012_CDC"
+          ],
+          "attackVectors": ["SWIFT compromise", "ATM malware", "Account takeover", "Social engineering"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "DISRUPTION",
+      "categoryName": "Disruption",
+      "categoryDescription": "Business continuity disruptions from non-malicious causes: unplanned IT outages, system failures, software bugs, datacenter downtime, natural disasters (earthquakes, hurricanes, floods), pandemics, building destruction (fire, explosion), external infrastructure failures (power grid, SWIFT outage), and critical supplier bankruptcies. Focus: Service unavailability or operational disruption without intentional attack. Distinguisher: If caused by intentional cyber attack, classify as CYBER. If caused by human operational error, classify as ERROR. If intentional sabotage by employee, classify as INTERNAL_FRAUD.",
+      "scenarios": [
+        {
+          "scenarioCode": "019_BLD",
+          "scenarioName": "Building Destruction",
+          "shortDefinition": "Physical destruction of critical bank building from terrorism, fire, or industrial accident",
+          "keySignals": [
+            "building destroyed",
+            "terrorist attack on headquarters",
+            "fire destroys office",
+            "explosion at bank premises",
+            "building collapse",
+            "premises uninhabitable"
+          ],
+          "typicalExample": "Bank headquarters destroyed by fire, requiring relocation and causing $500m in losses",
+          "exclusions": [
+            "If datacenter specifically -> 017_DCT",
+            "If regional disaster affecting multiple sites -> 020_NDR"
+          ],
+          "causeTypes": ["Terrorism", "Fire", "Industrial accident"]
+        },
+        {
+          "scenarioCode": "016_CSD",
+          "scenarioName": "Critical Application Disruption",
+          "shortDefinition": "IT outage of critical banking application due to software/hardware failure (non-cyber)",
+          "keySignals": [
+            "IT outage",
+            "system failure",
+            "software bug",
+            "application down",
+            "technical glitch",
+            "unplanned downtime",
+            "customers unable to access accounts"
+          ],
+          "typicalExample": "Core banking system down for 8 hours due to software bug, affecting 10 million customers",
+          "exclusions": [
+            "If cyber attack caused outage -> 013_CYS",
+            "If entire datacenter down -> 017_DCT",
+            "If external payment system -> 018_PSD"
+          ],
+          "causeTypes": ["Software bug", "Hardware failure", "Configuration error"]
+        },
+        {
+          "scenarioCode": "017_DCT",
+          "scenarioName": "Datacenter Disruption",
+          "shortDefinition": "Complete datacenter outage affecting multiple critical systems",
+          "keySignals": [
+            "datacenter outage",
+            "data center down",
+            "power failure at datacenter",
+            "cooling system failure",
+            "total IT infrastructure loss",
+            "disaster recovery activation"
+          ],
+          "typicalExample": "Primary datacenter offline for 12 hours due to power failure, triggering disaster recovery",
+          "exclusions": [
+            "If single application only -> 016_CSD",
+            "If cyber attack -> 013_CYS",
+            "If building destruction -> 019_BLD"
+          ],
+          "causeTypes": ["Power failure", "HVAC failure", "Fire suppression activation"]
+        },
+        {
+          "scenarioCode": "018_PSD",
+          "scenarioName": "External Payment System Disruption",
+          "shortDefinition": "Unavailability of external payment settlement system (SWIFT, ACH, clearing house)",
+          "keySignals": [
+            "SWIFT outage",
+            "payment system down",
+            "clearing house disruption",
+            "ACH unavailable",
+            "settlement system failure",
+            "unable to process payments"
+          ],
+          "typicalExample": "SWIFT network down for 6 hours, bank compensates corporate clients for delayed payments",
+          "exclusions": [
+            "If bank's own systems -> 016_CSD",
+            "If cyber attack on bank -> 013_CYS"
+          ],
+          "externalSystems": ["SWIFT", "ACH", "Fedwire", "CHIPS", "TARGET2"]
+        },
+        {
+          "scenarioCode": "020_NDR",
+          "scenarioName": "Natural Disaster - Regional",
+          "shortDefinition": "Major natural disaster (earthquake, hurricane, flood) affecting significant portion of bank operations",
+          "keySignals": [
+            "earthquake",
+            "hurricane",
+            "major flood",
+            "natural disaster",
+            "catastrophic storm",
+            "multiple branches destroyed",
+            "regional evacuation"
+          ],
+          "typicalExample": "Hurricane destroys 200 branches and displaces 5,000 employees, causing $800m in losses",
+          "exclusions": [
+            "If single building only -> 019_BLD",
+            "If pandemic -> 040_PDE"
+          ],
+          "disasterTypes": ["Earthquake", "Hurricane", "Storm surge"]
+        },
+        {
+          "scenarioCode": "040_PDE",
+          "scenarioName": "Pandemic",
+          "shortDefinition": "Pandemic impact on bank workforce and operations (excluding broader economic effects)",
+          "keySignals": [
+            "pandemic workforce impact",
+            "COVID-19 operational disruption",
+            "mass employee absenteeism",
+            "remote work transition costs",
+            "branch closures due to pandemic"
+          ],
+          "typicalExample": "Bank incurs $300m in extra costs for remote work infrastructure and extended sick leave during pandemic",
+          "exclusions": [
+            "If broader economic credit losses -> Credit Risk (not operational)",
+            "If supplier failure due to pandemic -> 021_SPF"
+          ],
+          "note": "Excludes pandemic stress on credit/market risk, focuses only on operational impact"
+        },
+        {
+          "scenarioCode": "021_SPF",
+          "scenarioName": "Supplier Failure",
+          "shortDefinition": "Failure or bankruptcy of critical third-party supplier disrupting bank operations",
+          "keySignals": [
+            "supplier bankruptcy",
+            "vendor failure",
+            "third-party service disruption",
+            "outsourcing partner default",
+            "critical supplier unavailable",
+            "vendor gone out of business"
+          ],
+          "typicalExample": "Key IT vendor goes bankrupt mid-contract, bank pays $150m to find replacement and migrate systems",
+          "exclusions": [
+            "If bank's own IT systems -> 016_CSD",
+            "If external payment system -> 018_PSD"
+          ],
+          "supplierTypes": ["IT vendors", "BPO providers", "Cloud services", "Payment processors"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "ERROR",
+      "categoryName": "Error Risk",
+      "categoryDescription": "Unintentional human errors and process failures in executing transactions, calculations, or operational procedures: trading errors (fat finger trades), payment mistakes (wrong beneficiary, incorrect amount), failed corporate actions, lending documentation errors (collateral not secured), pricing model bugs, risk model calculation errors (RWA miscalculation), and trading algorithm malfunctions. Focus: Honest mistakes causing financial loss, not misconduct. CRITICAL PRINCIPLE — ROOT CAUSE OVER CONSEQUENCE: Always classify by the ROOT CAUSE of the loss, not by its downstream consequences. Even if an unintentional error ultimately leads to a REGULATORY FINE, ENFORCEMENT ACTION, or RESTATEMENT, the scenario remains ERROR if the root cause was an honest mistake (miscalculation, process failure, model bug). A regulatory fine for a miscalculated RWA is still 037_RME (Error), not CONDUCT. A trading algorithm malfunction that triggers a regulatory sanction is still 038_TAE (Error), not CONDUCT. Only classify as CONDUCT if the act itself was intentional misconduct (deliberate manipulation, systematic customer abuse, willful regulatory violation). Distinguisher: If error is intentional or involves fraud, classify as INTERNAL_FRAUD or CONDUCT. If caused by system failure rather than human/process error, classify as DISRUPTION.",
+      "scenarios": [
+        {
+          "scenarioCode": "022_CAF",
+          "scenarioName": "Corporate Action Failure",
+          "shortDefinition": "Failure to execute corporate action (IPO, rights issue, dividend) as instructed by client",
+          "keySignals": [
+            "corporate action missed",
+            "failed to exercise rights",
+            "IPO participation error",
+            "dividend not claimed",
+            "bonus issue not processed",
+            "missed opportunity cost"
+          ],
+          "typicalExample": "Custodian bank fails to exercise client's rights in $2bn rights issue, liable for $50m lost value",
+          "exclusions": [
+            "If fraud involved -> Internal/External Fraud",
+            "If mis-selling -> 011_MSW"
+          ],
+          "businessLines": ["Asset Management", "Custody", "Brokerage"]
+        },
+        {
+          "scenarioCode": "023_LPE",
+          "scenarioName": "Lending Process Error",
+          "shortDefinition": "Operational failures in loan origination or servicing causing credit losses",
+          "keySignals": [
+            "lending documentation error",
+            "collateral not secured",
+            "loan covenant missing",
+            "credit approval bypass",
+            "valuation error",
+            "inadequate loan review"
+          ],
+          "typicalExample": "Bank loses $200m on defaulted loans due to failure to properly secure collateral during origination",
+          "exclusions": [
+            "If intentional wrongdoing -> Internal Fraud",
+            "If systemic loan servicing abuse -> 009_ILM",
+            "If pure credit judgment error -> Credit Risk (not operational)"
+          ],
+          "note": "Credit loss due to operational error, allocated to operational risk"
+        },
+        {
+          "scenarioCode": "036_PME",
+          "scenarioName": "Pricing Model Error",
+          "shortDefinition": "Error in derivative valuation model causing mispricing and trading losses",
+          "keySignals": [
+            "pricing model error",
+            "valuation mistake",
+            "derivative mispricing",
+            "mark-to-market error",
+            "model bug",
+            "incorrect fair value"
+          ],
+          "typicalExample": "Bank loses $150m due to coding error in exotic derivatives pricing model over 18 months",
+          "exclusions": [
+            "If risk model (RWA calculation) -> 037_RME",
+            "If trading algorithm error -> 038_TAE",
+            "If intentional mispricing -> Conduct Risk"
+          ],
+          "businessLines": ["Investment Banking", "Trading"]
+        },
+        {
+          "scenarioCode": "037_RME",
+          "scenarioName": "Risk Model Error",
+          "shortDefinition": "Unintentional error in risk-weighted assets (RWA) calculation, capital adequacy reporting, or regulatory model outputs, leading to misstatement of regulatory capital, enforcement actions, or need to raise additional capital. CRITICAL: Even if a regulatory fine or enforcement action results from the error, this remains an ERROR scenario if the root cause was an unintentional miscalculation or process failure — NOT CONDUCT.",
+          "keySignals": [
+            "RWA calculation error",
+            "risk model mistake",
+            "capital requirement understatement",
+            "Basel calculation error",
+            "regulatory model failure",
+            "need to raise additional capital",
+            "capital adequacy misreporting",
+            "SEC fine for incorrect reporting",
+            "ECB fine for RWA errors",
+            "restatement of regulatory capital",
+            "model validation failure",
+            "stress test error"
+          ],
+          "typicalExample": "Bank fined $50m by ECB after discovering its RWA was understated by 20% due to a model calculation error. The bank must raise $5bn in additional capital. Even though a fine was imposed, the root cause is an unintentional model error, so this is ERROR (037_RME), not CONDUCT.",
+          "contrastiveExamples": [
+            {
+              "scenario": "001_ATC or 002_FNC (CONDUCT)",
+              "example": "Bank deliberately manipulates LIBOR submissions to improve its trading positions → CONDUCT because the act itself is intentional misconduct.",
+              "distinction": "In 037_RME, the miscalculation is UNINTENTIONAL (bug, oversight, methodology flaw). In CONDUCT, the misrepresentation is DELIBERATE."
+            },
+            {
+              "scenario": "006_CMR (CONDUCT)",
+              "example": "Bank helps Enron hide debt through deliberate off-balance-sheet structures → CONDUCT because the bank knowingly participated in misrepresentation.",
+              "distinction": "037_RME is about the bank's own unintentional errors in its own risk models/reporting, not helping clients commit fraud."
+            }
+          ],
+          "exclusions": [
+            "If pricing model error (derivatives valuation) -> 036_PME",
+            "If DELIBERATE misstatement to deceive regulators/investors -> 006_CMR or CONDUCT",
+            "IMPORTANT: A regulatory fine DOES NOT automatically make it CONDUCT. If the underlying act was an honest calculation/methodological error that happened to trigger a regulatory response, it remains 037_RME (ERROR)"
+          ],
+          "classificationPrinciple": "Ask: Was the misstatement INTENTIONAL (deliberate manipulation)? → CONDUCT. Was it UNINTENTIONAL (calculation error, methodology flaw, process failure)? → ERROR (037_RME). The presence of a regulatory fine or enforcement action does NOT change this — fines can result from both intentional misconduct AND unintentional errors.",
+          "regulatoryFrameworks": ["Basel III", "CRD IV", "SEC Reporting Requirements"]
+        },
+        {
+          "scenarioCode": "038_TAE",
+          "scenarioName": "Trading Algorithm Error",
+          "shortDefinition": "Algorithmic trading malfunction creating unintended market exposure and losses. Includes cases where the malfunctioning algorithm causes market disruption and triggers regulatory fines — the root cause is still an unintentional algorithm error, so this remains ERROR, not CONDUCT.",
+          "keySignals": [
+            "algo trading error",
+            "trading algorithm malfunction",
+            "flash crash",
+            "runaway algorithm",
+            "automated trading failure",
+            "fat finger algorithm",
+            "Knight Capital-type incident",
+            "erroneous orders flooding market",
+            "algorithm caused market disruption",
+            "fined for algorithm malfunction",
+            "spoofing by malfunctioning algorithm"
+          ],
+          "typicalExample": "Trading algorithm malfunctions, accumulating $7bn unintended position and losing $440m in 45 minutes. Regulator fines the firm $5m for market disruption caused by the runaway algorithm. Despite the fine, this is ERROR because the algorithm malfunction was unintentional.",
+          "contrastiveExamples": [
+            {
+              "scenario": "001_ATC (CONDUCT)",
+              "example": "Bank deliberately programs trading algorithms to spoof the market (place and quickly cancel large orders to manipulate prices) → CONDUCT because the algorithm behavior was INTENTIONALLY designed to manipulate.",
+              "distinction": "In 038_TAE, the algorithm MALFUNCTIONS (unintended behavior). In CONDUCT, the algorithm works AS DESIGNED but that design is manipulative."
+            }
+          ],
+          "exclusions": [
+            "If manual (human) trading error -> 026_TRE",
+            "If pricing/valuation model error -> 036_PME",
+            "If rogue trader intentionally hiding positions -> 031_URT",
+            "If algorithm was DELIBERATELY designed to manipulate markets (spoofing by design) -> 001_ATC (CONDUCT)",
+            "IMPORTANT: A regulatory fine for market disruption caused by algorithm malfunction does NOT make it CONDUCT. If the algorithm error was unintentional, it remains 038_TAE (ERROR)"
+          ],
+          "classificationPrinciple": "Ask: Did the algorithm MALFUNCTION (unintended behavior)? → ERROR (038_TAE). Was the algorithm DELIBERATELY designed to manipulate? → CONDUCT (001_ATC).",
+          "businessLines": ["Trading", "Market Making"]
+        },
+        {
+          "scenarioCode": "026_TRE",
+          "scenarioName": "Trading Error",
+          "shortDefinition": "Manual error in executing or capturing a single market trade",
+          "keySignals": [
+            "trading error",
+            "fat finger trade",
+            "incorrect order entry",
+            "execution mistake",
+            "trade capture error",
+            "wrong quantity traded"
+          ],
+          "typicalExample": "Trader accidentally sells $600m instead of $6m, loses $50m unwinding position",
+          "exclusions": [
+            "If algorithmic -> 038_TAE",
+            "If intentional -> 031_URT",
+            "If systematic error -> 038_TAE or 036_PME"
+          ],
+          "businessLines": ["Trading", "Sales & Trading"]
+        },
+        {
+          "scenarioCode": "027_WTE",
+          "scenarioName": "Wire Transfer Error",
+          "shortDefinition": "Human error on high-value payment transfer (wrong amount, wrong beneficiary)",
+          "keySignals": [
+            "payment error",
+            "wire transfer mistake",
+            "wrong beneficiary",
+            "duplicate payment",
+            "incorrect amount sent",
+            "payment sent in error"
+          ],
+          "typicalExample": "Bank accidentally wires $900m instead of $9m, takes 3 months to recover funds",
+          "exclusions": [
+            "If fraud involved -> 029_WTX or 032_WTI",
+            "If systematic error -> 027_WTE shouldn't be systematic",
+            "If client error (not bank) -> not operational loss"
+          ],
+          "businessLines": ["Transaction Banking", "Treasury"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "EXTERNAL_FRAUD",
+      "categoryName": "External Fraud Risk",
+      "categoryDescription": "Fraud schemes orchestrated by external criminals targeting bank or customer funds through social engineering, deception, or exploitation of third-party vulnerabilities: merchant/processor card data breaches, business email compromise (CEO fraud), payment fraud through social engineering, check fraud, account takeover (without hacking). IMPORTANT — MERCHANT/PROCESSOR BREACHES (028_MCC): When a third-party retailer, merchant, or payment processor is hacked and card data is stolen (e.g., Target, Home Depot, Heartland Payment Systems breaches), this is EXTERNAL_FRAUD for the card-issuing bank — NOT Cyber Risk — because the bank was not the target of the attack. The bank's loss comes from its liability as card issuer (card reissuance costs, reimbursing fraudulent transactions, fraud monitoring). The fact that the article describes hacking techniques does not make it CYBER for the bank; what matters is WHO was attacked (the merchant/processor) and WHY the bank loses money (card issuer liability). Key characteristic: Perpetrator is external to the bank, though may manipulate bank employees into unknowingly facilitating fraud. Distinguisher: If bank employee intentionally participates or acts alone, classify as INTERNAL_FRAUD. If THE BANK ITSELF is directly hacked/attacked, classify as CYBER. If a THIRD PARTY is hacked and the bank bears costs as card issuer, classify as EXTERNAL_FRAUD (028_MCC). If employee is deceived but fraud originates externally, classify as EXTERNAL_FRAUD.",
+      "scenarios": [
+        {
+          "scenarioCode": "028_MCC",
+          "scenarioName": "Merchant / Processor Card Compromise",
+          "shortDefinition": "Large-scale compromise of card data through a breach at a THIRD-PARTY merchant or payment processor (NOT at the bank itself). The card-issuing bank bears financial losses (card reissuance, fraud reimbursement, monitoring costs) proportional to its share of compromised cards. This is EXTERNAL_FRAUD because the bank is a victim of external fraud — it was not attacked directly.",
+          "keySignals": [
+            "merchant data breach",
+            "retailer hacked",
+            "card processor hacked",
+            "point-of-sale compromise",
+            "payment processor breach",
+            "millions of cards exposed",
+            "card data stolen from retailer",
+            "bank reimburses cardholders",
+            "card reissuance costs",
+            "Target breach",
+            "Home Depot breach",
+            "Heartland Payment Systems breach",
+            "third-party data breach affecting card issuer"
+          ],
+          "typicalExample": "Target's payment systems are hacked, exposing 40 million credit card numbers. Banks that issued those cards collectively bear $200m+ in fraud losses and card reissuance costs. Each bank's loss is proportional to its share of compromised cards. The article describes the hack at Target, but for the issuing banks this is External Fraud — they were not attacked; they bear costs as card issuers.",
+          "contrastiveExamples": [
+            {
+              "scenario": "012_CDC (CYBER)",
+              "example": "JPMorgan's OWN systems are hacked, exposing data of 76 million households. Here the BANK is the direct target → CYBER.",
+              "distinction": "In 028_MCC, a THIRD PARTY (merchant/processor) is hacked. In 012_CDC, the BANK ITSELF is hacked."
+            },
+            {
+              "scenario": "014_CFM (CYBER)",
+              "example": "Hackers penetrate bank's SWIFT terminal and steal $81m. The BANK's own systems are compromised → CYBER.",
+              "distinction": "In 028_MCC, funds are lost through card fraud liability, not through a direct attack on bank systems."
+            }
+          ],
+          "exclusions": [
+            "If THE BANK'S OWN systems are hacked -> 012_CDC or 014_CFM (CYBER category)",
+            "If bank employee involved in stealing card data -> 030_ICC (INTERNAL_FRAUD)",
+            "If customer data (not cards) stolen from the bank -> 012_CDC (CYBER)",
+            "NEVER classify as CYBER just because the article mentions hacking — check WHO was hacked: if a merchant/retailer/processor was hacked and the bank bears costs as card issuer, it is 028_MCC (EXTERNAL_FRAUD)"
+          ],
+          "classificationPrinciple": "Ask: Was THE BANK directly attacked? If NO (a third party was attacked and the bank bears cost as card issuer) → EXTERNAL_FRAUD (028_MCC). If YES (the bank's own systems were penetrated) → CYBER.",
+          "note": "Bank liability proportional to market share of issued cards. Even though the underlying event involves hacking, the bank's operational risk is External Fraud because it was not the target of the attack."
+        },
+        {
+          "scenarioCode": "029_WTX",
+          "scenarioName": "Wire Transfer External Fraud",
+          "shortDefinition": "Fraudulent high-value transfer orchestrated by external fraudster with unwitting employee involvement",
+          "keySignals": [
+            "payment fraud",
+            "CEO fraud",
+            "business email compromise",
+            "fraudulent wire transfer",
+            "social engineering attack",
+            "fake payment instructions"
+          ],
+          "typicalExample": "External fraudster uses CEO impersonation to trick employee into wiring $50m to foreign account",
+          "exclusions": [
+            "If employee intentionally involved -> 032_WTI",
+            "If cyber attack without human interaction -> 014_CFM",
+            "If human error without fraud -> 027_WTE"
+          ],
+          "fraudTypes": ["CEO fraud", "BEC", "Social engineering", "Invoice fraud"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "INTERNAL_FRAUD",
+      "categoryName": "Internal Fraud Risk",
+      "categoryDescription": "Intentional fraud, theft, or unauthorized activities by bank employees or insiders for personal gain: rogue trading (unauthorized positions hidden from management), employee embezzlement, internal theft of customer funds, theft and sale of card/customer data by staff, intentional fraudulent wire transfers by employees. Key characteristic: Employee acts intentionally to defraud or steal, concealing activities from management. Distinguisher: If employee misconduct is part of systematic business practice that harms customers and triggers regulatory fines (e.g., unauthorized account opening to meet sales targets), classify as CONDUCT, not INTERNAL_FRAUD. INTERNAL_FRAUD is for individual employee theft/fraud for personal benefit.",
+      "scenarios": [
+        {
+          "scenarioCode": "030_ICC",
+          "scenarioName": "Internal Credit Card Compromise",
+          "shortDefinition": "Bank employee steals or sells card data for fraudulent use",
+          "keySignals": [
+            "employee steals card data",
+            "insider card fraud",
+            "bank staff compromises cards",
+            "internal data theft",
+            "employee sells customer information"
+          ],
+          "typicalExample": "Bank employee steals 100,000 card numbers and sells to criminals, causing $30m fraud losses",
+          "exclusions": [
+            "If external breach through merchant -> 028_MCC",
+            "If customer data (not cards) -> Could be internal fraud but not this specific scenario"
+          ],
+          "fraudTypes": ["Data theft by employee", "Insider trading of card data"]
+        },
+        {
+          "scenarioCode": "031_URT",
+          "scenarioName": "Unauthorized or Rogue Trading",
+          "shortDefinition": "Trader intentionally builds unauthorized position to speculate, resulting in large losses",
+          "keySignals": [
+            "rogue trader",
+            "unauthorized trading",
+            "hidden positions",
+            "unauthorized speculation",
+            "trading limit breach",
+            "Jerome Kerviel",
+            "Nick Leeson",
+            "concealed losses"
+          ],
+          "typicalExample": "Trader hides $6bn unauthorized position over 2 years, causing $4.9bn loss when exposed",
+          "exclusions": [
+            "If honest trading error -> 026_TRE",
+            "If algorithm error -> 038_TAE"
+          ],
+          "fraudTypes": ["Unauthorized trading", "Position concealment", "Control override"]
+        },
+        {
+          "scenarioCode": "032_WTI",
+          "scenarioName": "Wire Transfer Internal Fraud",
+          "shortDefinition": "Employee intentionally executes fraudulent wire transfer for personal gain",
+          "keySignals": [
+            "employee embezzlement",
+            "internal payment fraud",
+            "staff steals funds",
+            "insider wire fraud",
+            "employee diverts payment"
+          ],
+          "typicalExample": "Bank employee diverts $20m in customer payments to personal accounts over 3 years",
+          "exclusions": [
+            "If external fraudster with unwitting employee -> 029_WTX",
+            "If cyber attack -> 014_CFM",
+            "If error without fraud intent -> 027_WTE"
+          ],
+          "fraudTypes": ["Embezzlement", "Payment diversion", "Account manipulation"]
+        }
+      ]
+    },
+    {
+      "categoryCode": "LEGAL",
+      "categoryName": "Legal Risk",
+      "categoryDescription": "Civil legal disputes and liability claims not arising from conduct violations or regulatory enforcement: employment class actions (discrimination, wage violations, wrongful termination, ERISA/retirement plan disputes), intellectual property infringement (patent, copyright, trademark disputes), contract disputes with non-regulatory parties, and employment-related lawsuits. Focus: Legal liability from civil law, not financial regulation. IMPORTANT — EMPLOYMENT LAWSUITS: All employment-related class actions (gender/racial discrimination, wage & hour violations, wrongful termination, ERISA/401k disputes) belong here in LEGAL, NOT in CONDUCT. Even if a regulator like the EEOC is involved, employment disputes are LEGAL because the plaintiff is an employee (not a customer or market participant) and the claim arises from labor/employment law (not financial regulation). CONDUCT is exclusively about financial misconduct harming customers, markets, or financial regulatory compliance. Distinguisher: If dispute involves financial regulatory enforcement (SEC, FCA, FINMA, etc.), customer mistreatment, or financial market misconduct, classify as CONDUCT. LEGAL is reserved for non-regulatory civil disputes, particularly employment and IP matters.",
+      "scenarios": [
+        {
+          "scenarioCode": "035_IPI",
+          "scenarioName": "IP Infringement",
+          "shortDefinition": "Bank found liable for violating third-party intellectual property rights (patents, trademarks, copyright)",
+          "keySignals": [
+            "patent infringement",
+            "copyright violation",
+            "trademark dispute",
+            "IP lawsuit",
+            "intellectual property claim",
+            "licensing dispute",
+            "software piracy"
+          ],
+          "typicalExample": "Bank pays $150m settlement for using patented financial technology without license",
+          "exclusions": [
+            "If conduct-related dispute -> Conduct Risk category",
+            "If employment-related -> 034_WCA"
+          ],
+          "ipTypes": ["Patents", "Trademarks", "Copyright", "Trade secrets"]
+        },
+        {
+          "scenarioCode": "034_WCA",
+          "scenarioName": "Workplace Class Action",
+          "shortDefinition": "Class action or large-scale lawsuit by employees against the bank for employment-related claims: discrimination (gender, race, age, disability), wage and hour violations (FLSA), wrongful termination, retirement plan disputes (ERISA/401k), and hostile work environment. This is LEGAL, NOT CONDUCT, because the plaintiffs are employees (not customers or market participants) and the claims arise from labor/employment law.",
+          "keySignals": [
+            "employment class action",
+            "discrimination lawsuit",
+            "wage and hour violations",
+            "gender discrimination",
+            "racial discrimination",
+            "age discrimination",
+            "FLSA violation",
+            "wrongful termination class action",
+            "ERISA lawsuit",
+            "401k plan lawsuit",
+            "equal pay lawsuit",
+            "hostile work environment",
+            "employee vs bank lawsuit",
+            "EEOC action",
+            "Department of Labor enforcement"
+          ],
+          "typicalExample": "Bank settles $250m gender discrimination class action with 3,000 female employees. Even though a government agency (EEOC) may be involved, this is LEGAL (034_WCA) because it is an employment dispute, not a financial regulatory action.",
+          "contrastiveExamples": [
+            {
+              "scenario": "010_MSR (CONDUCT)",
+              "example": "Bank fined for mis-selling payment protection insurance to millions of retail customers → CONDUCT because the victims are CUSTOMERS and the violation is of financial consumer protection regulation.",
+              "distinction": "In 034_WCA, the plaintiffs are EMPLOYEES suing under labor/employment law. In CONDUCT, the victims are CUSTOMERS or MARKET PARTICIPANTS and the violation is of financial regulation."
+            }
+          ],
+          "exclusions": [
+            "If the lawsuit is by CUSTOMERS (not employees) about financial products → CONDUCT (mis-selling, overcharging, etc.)",
+            "If financial regulatory enforcement (SEC, FCA, etc.) → CONDUCT",
+            "IMPORTANT: Employment lawsuits are ALWAYS LEGAL, even if a government agency like EEOC or DOL is involved, because these are labor law agencies, not financial regulators"
+          ],
+          "claimTypes": ["Discrimination (gender, race, age, disability)", "Wage and hour (FLSA)", "Retirement plans (ERISA)", "Wrongful termination", "Hostile work environment", "Equal pay"]
+        }
+      ]
+    }
+  ],
+  "classification_guidance": {
+    "fundamental_principle": "ALWAYS CLASSIFY BY ROOT CAUSE, NOT BY CONSEQUENCE. The presence of a regulatory fine, enforcement action, or lawsuit does NOT determine the category. What matters is the NATURE of the underlying event: Was it an intentional business practice violation (CONDUCT)? An unintentional error (ERROR)? A cyber attack on the bank (CYBER)? An external fraud scheme (EXTERNAL_FRAUD)? A non-malicious disruption (DISRUPTION)? An employment/IP civil dispute (LEGAL)?",
+    "general_rules": [
+      "Always classify by ROOT CAUSE: What was the nature of the underlying event? Intentional misconduct → CONDUCT. Unintentional error → ERROR. Cyber attack on the bank → CYBER. External criminal scheme → EXTERNAL_FRAUD. Non-malicious disruption → DISRUPTION. Employment/IP dispute → LEGAL.",
+      "If news mentions multiple issues, classify based on the PRIMARY root cause event, not secondary consequences",
+      "A regulatory fine can result from ANY category (errors, cyber breaches, fraud, misconduct) — the fine itself does not determine the category",
+      "Ask WHO is the victim and WHAT LAW was violated to distinguish CONDUCT (financial regulation, customer harm) from LEGAL (employment law, IP law) from ERROR (unintentional process failure)"
+    ],
+    "critical_boundary_rules": {
+      "merchant_breach_is_external_fraud_not_cyber": {
+        "rule": "When a MERCHANT, RETAILER, or PAYMENT PROCESSOR is hacked and card data is stolen, the card-issuing bank classifies this as EXTERNAL_FRAUD (028_MCC), NOT CYBER. The bank was NOT attacked — it bears costs as card issuer.",
+        "test": "Was THE BANK's own system directly hacked? YES → CYBER. Was a THIRD PARTY hacked and the bank bears cost as card issuer? → EXTERNAL_FRAUD (028_MCC).",
+        "common_error": "Articles about Target, Home Depot, Heartland breaches describe hacking in detail, which causes misclassification as CYBER. But the bank is the ISSUER bearing card replacement costs, not the ATTACK TARGET."
+      },
+      "regulatory_fine_for_error_is_still_error": {
+        "rule": "When a bank is fined for an UNINTENTIONAL miscalculation, misreporting, or process failure (e.g., RWA errors, capital adequacy misstatements), classify as ERROR, NOT CONDUCT.",
+        "test": "Was the underlying act INTENTIONAL misconduct (deliberate manipulation, willful violation)? → CONDUCT. Was it an UNINTENTIONAL error (calculation bug, methodology flaw, oversight)? → ERROR. The fact that a fine resulted does not change the root cause.",
+        "common_error": "Articles about SEC/ECB fines for misreporting RWA mention 'regulatory fine' and 'enforcement action', which causes misclassification as CONDUCT. But the root cause is an unintentional model/calculation error → ERROR (037_RME)."
+      },
+      "employment_lawsuits_are_legal_not_conduct": {
+        "rule": "All employment-related disputes (discrimination, wage violations, wrongful termination, ERISA) are LEGAL (034_WCA), NOT CONDUCT, even if a government agency (EEOC, DOL) is involved.",
+        "test": "Are the PLAINTIFFS employees suing under labor/employment law? → LEGAL. Are the victims customers/market participants and is financial regulation violated? → CONDUCT.",
+        "common_error": "Employment discrimination lawsuits mention 'class action' and 'settlement', which can trigger CONDUCT classification. But CONDUCT is about financial misconduct harming customers/markets, not employment disputes."
+      },
+      "algorithm_malfunction_fine_is_error": {
+        "rule": "When a trading algorithm MALFUNCTIONS (unintended behavior) and causes market disruption leading to a fine, classify as ERROR (038_TAE), NOT CONDUCT.",
+        "test": "Did the algorithm MALFUNCTION (bug, unintended behavior)? → ERROR (038_TAE). Was the algorithm DELIBERATELY designed to manipulate (e.g., spoofing by design)? → CONDUCT (001_ATC).",
+        "common_error": "Articles mention 'market manipulation' or 'regulatory fine' when an algorithm goes haywire, but if the algorithm was not intentionally designed to manipulate, it's an ERROR."
+      }
+    },
+    "boundary_scenarios": {
+      "mis_selling_trio": {
+        "010_MSR": "Retail products: loans, credit cards, PPI, mortgages to consumers",
+        "011_MSW": "Wholesale products: RMBS, derivatives, structured products to institutions",
+        "008_FID": "Asset management products: mutual funds, ETFs, investment funds"
+      },
+      "esg_quartet": {
+        "041_BSM": "Bank's own ESG disclosure violations (greenwashing own reports)",
+        "042_CSM": "Bank liable for client's ESG issues (financing harmful projects)",
+        "043_ESA": "Shareholder lawsuit after bank's ESG scandal drops stock price",
+        "044_FSD": "Fund's portfolio not aligned with stated ESG objectives"
+      },
+      "cyber_vs_external_fraud": {
+        "cyber_scenarios": "MUST involve intentional attack directly on THE BANK's own infrastructure by external threat actor",
+        "external_fraud_028_MCC": "Third-party merchant/processor is hacked, bank bears cost as card ISSUER — this is EXTERNAL_FRAUD, not CYBER",
+        "key_question": "Was the BANK the direct target of the attack? CYBER. Was a THIRD PARTY attacked and the bank bears cost as card issuer? EXTERNAL_FRAUD."
+      },
+      "cyber_vs_disruption": {
+        "cyber_scenarios": "MUST involve intentional attack by external threat actor on the bank",
+        "disruption_scenarios": "Non-intentional IT failures, natural disasters, supplier issues — no attacker involved"
+      },
+      "error_vs_conduct": {
+        "error_scenarios": "Root cause is UNINTENTIONAL: miscalculation, process failure, model bug, algorithm malfunction. May still result in regulatory fines.",
+        "conduct_scenarios": "Root cause is INTENTIONAL: deliberate market manipulation, willful regulatory violation, systematic customer abuse, knowing misrepresentation.",
+        "key_question": "Was the underlying act intentional misconduct or an honest mistake? Classify by intent, not by whether a fine resulted."
+      },
+      "conduct_vs_legal": {
+        "conduct": "Victims are CUSTOMERS or MARKET PARTICIPANTS, violation is of FINANCIAL regulation (SEC, FCA, FINMA, etc.)",
+        "legal": "Plaintiffs are EMPLOYEES, claims arise from LABOR/EMPLOYMENT law (discrimination, wages, ERISA). Also IP disputes.",
+        "key_question": "Who is the plaintiff/victim? Customers/markets → CONDUCT. Employees → LEGAL. Third-party IP holder → LEGAL."
+      },
+      "fraud_classification": {
+        "external_fraud": "Perpetrator is external to bank (may involve unwitting employee). Includes merchant breaches where bank is card issuer.",
+        "internal_fraud": "Perpetrator is bank employee acting intentionally for personal gain (not as part of systematic business practice)"
+      }
+    },
+    "confidence_scoring": {
+      "0.9-1.0": "Multiple key signals present, scenario explicitly mentioned in news",
+      "0.7-0.89": "Several key signals present, clear match but not explicitly stated",
+      "0.5-0.69": "Some key signals present, reasonable inference required",
+      "below 0.5": "Weak match, consider NO_MATCH if confidence too low"
+    }
+  }
+}

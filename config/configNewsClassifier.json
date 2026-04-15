@@ -1,0 +1,70 @@
+{
+  "provider": {
+    "type": "openai"
+  },
+  "providers": [
+    {
+      "name": "openai",
+      "services": [
+        {
+          "name": "completion",
+          "key": "ENV:OPENAI_API_KEY",
+          "url": "https://api.openai.com/v1/chat/completions",
+          "model": "gpt-4o",
+          "maxNbWord": 4000,
+          "timeout": {
+            "connect": 10,
+            "read": 30,
+            "write": 30
+          }
+        },
+        {
+          "name": "embedding",
+          "key": "ENV:OPENAI_API_KEY",
+          "url": "https://api.openai.com/v1/embeddings",
+          "model": "text-embedding-3-small",
+          "maxNbWord": 4000,
+          "timeout": {
+            "connect": 10,
+            "read": 30,
+            "write": 30
+          }
+        }
+      ]
+    }
+  ],
+  "usages": [
+    {
+      "name": "summary",
+      "template": "summary.jinja2",
+      "assistantRole": "You are a financial news summarization assistant specialized in operational risk analysis.",
+      "temperature": 0.3,
+      "provider": "openai",
+      "service": "completion"
+    },
+    {
+      "name": "title",
+      "template": "title.jinja2",
+      "assistantRole": "You are a financial news title generation assistant.",
+      "temperature": 0.3,
+      "provider": "openai",
+      "service": "completion"
+    },
+    {
+      "name": "categoryClassification",
+      "template": "category_classification.jinja2",
+      "assistantRole": "You are an expert in financial operational risk classification. You respond only in valid JSON format.",
+      "temperature": 0.1,
+      "provider": "openai",
+      "service": "completion"
+    },
+    {
+      "name": "scenarioClassification",
+      "template": "scenario_classification.jinja2",
+      "assistantRole": "You are an expert in financial operational risk classification. You respond only in valid JSON format.",
+      "temperature": 0.1,
+      "provider": "openai",
+      "service": "completion"
+    }
+  ]
+}

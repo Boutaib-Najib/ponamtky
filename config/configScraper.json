@@ -1,0 +1,17 @@
+{
+  "usePlaywright": true,
+  "timeout": 30,
+  "excludedDomains": [],
+  "media": {
+    "exclusions": [
+      "twitter.com",
+      "facebook.com",
+      "instagram.com",
+      "linkedin.com",
+      "youtube.com"
+    ],
+    "capsolverApiKey": "",
+    "specificMedia": [],
+    "cleaningRules": {}
+  }
+}
