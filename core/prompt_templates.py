@@ -4,6 +4,7 @@ Prompt template loader using Jinja2.
 This module provides utilities to load and render prompt templates
 from the config/prompts directory.
 """
+import os
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from typing import Dict, Any
@@ -12,7 +13,7 @@ from typing import Dict, Any
 class PromptTemplateLoader:
     """Loads and renders Jinja2 prompt templates."""
     
-    def __init__(self, templates_dir: Path = None):
+    def __init__(self):
         """
         Initialize the template loader.
         
@@ -20,11 +21,9 @@ class PromptTemplateLoader:
             templates_dir: Path to templates directory. 
                           Defaults to config/prompts/ relative to project root.
         """
+        templates_dir = os.environ.get("PROMPTS_PATH", None)
         if templates_dir is None:
-            # Get project root (two levels up from core/)
-            # In this repo, core/ lives directly under the project root.
-            project_root = Path(__file__).resolve().parent.parent
-            templates_dir = project_root / "config" / "prompts"
+            raise RuntimeError("Missing required environment variable: PROMPTS_PATH")
         
         self.templates_dir = Path(templates_dir)
         

@@ -345,6 +345,30 @@ class URLValidator:
         
         return False
 
+    @staticmethod
+    def is_text_url(url: str) -> bool:
+        """
+        Vérifie si une URL pointe vers un fichier texte (.txt).
+        Checks the path extension first, then falls back to a HEAD request
+        to inspect the Content-Type header.
+        """
+        try:
+            path = urlparse(url).path.lower()
+            if path.endswith(".txt"):
+                return True
+        except Exception:
+            pass
+
+        try:
+            resp = requests.head(url, timeout=10, allow_redirects=True)
+            content_type = resp.headers.get("Content-Type", "").lower()
+            if "text/plain" in content_type:
+                return True
+        except Exception:
+            pass
+
+        return False
+
 
 class PDFExtractor:
     """Classe pour extraire du texte depuis des PDFs"""
@@ -434,6 +458,26 @@ class PDFExtractor:
             
         except Exception as e:
             logger.error(f"Failed to download PDF: {e}")
+            return None
+
+
+class TextExtractor:
+    """Classe pour extraire du texte depuis des fichiers .txt en URL."""
+
+    @staticmethod
+    def download_text(url: str) -> Optional[str]:
+        """
+        Télécharge et retourne le contenu texte depuis une URL pointant
+        vers un fichier texte.
+        """
+        try:
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+            # requests guesses encoding from headers/content when possible
+            response.encoding = response.encoding or "utf-8"
+            return response.text
+        except Exception as e:
+            logger.error(f"Failed to download text file: {e}")
             return None
 
 
@@ -1393,6 +1437,7 @@ class WebScraper:
         self.timeout = timeout
         self.validator = URLValidator()
         self.pdf_extractor = PDFExtractor()
+        self.text_extractor = TextExtractor()
         self.web_extractor = WebPageExtractor()
         
         # Load media config
@@ -1558,6 +1603,10 @@ class WebScraper:
         # Traite les PDFs (unauthenticated)
         if self.validator.is_pdf_url(url):
             return self._load_pdf(url, metadata)
+
+        # Traite les fichiers .txt (unauthenticated)
+        if self.validator.is_text_url(url):
+            return self._load_text_file(url, metadata)
         
         # Standard extraction
         return self._load_webpage(url, metadata, force_playwright)
@@ -1592,6 +1641,25 @@ class WebScraper:
                 Path(pdf_path).unlink()
             except Exception:
                 pass
+
+    def _load_text_file(
+        self, url: str, metadata: Dict[str, Any]
+    ) -> Tuple[Optional[str], Dict[str, Any]]:
+        """
+        Charge et extrait le texte d'un fichier .txt.
+        """
+        metadata["method"] = "text"
+        text = self.text_extractor.download_text(url)
+
+        if text and len(text.strip()) > 0:
+            cleaned = WebPageExtractor._clean_extracted_text(text)
+            metadata["success"] = True
+            metadata["text_length"] = len(cleaned)
+            logger.info(f"Successfully extracted {len(cleaned)} chars from text file")
+            return cleaned, metadata
+
+        metadata["error"] = "TEXT_FILE_EXTRACTION_FAILED"
+        return None, metadata
     
     def _load_webpage_authenticated(
         self, url: str, metadata: Dict[str, Any], media: Media

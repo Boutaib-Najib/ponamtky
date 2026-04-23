@@ -864,11 +864,13 @@ class IA:
         read: int,
         url: Optional[str],
         text: Optional[str],
+        upload_file_path: Optional[str] = None,
+        upload_filename: Optional[str] = None,
         force_playwright: bool = False,
     ) -> Tuple[Optional[str], Optional[str]]:
-        """Returns (document_text, error_code) for news-classifier API (read 1 or 2)."""
+        """Returns (document_text, error_code) for news-classifier API (read 1/2/3)."""
         if read == 3:
-            return None, "UPLOAD_NOT_SUPPORTED"
+            return self._resolve_uploaded_text(upload_file_path, upload_filename)
         if read == 1:
             if not url or not isinstance(url, str):
                 return None, "MISSING_URL"
@@ -882,18 +884,66 @@ class IA:
             return text, None
         return None, "INVALID_READ"
 
+    def _resolve_uploaded_text(
+        self, upload_file_path: Optional[str], upload_filename: Optional[str]
+    ) -> Tuple[Optional[str], Optional[str]]:
+        if not upload_file_path:
+            return None, "MISSING_UPLOAD_FILE"
+
+        path = Path(upload_file_path)
+        if not path.exists() or not path.is_file():
+            return None, "UPLOAD_FILE_NOT_FOUND"
+
+        suffix = (path.suffix or "").lower()
+        if upload_filename:
+            suffix = (Path(upload_filename).suffix or suffix).lower()
+
+        if suffix not in {".txt", ".pdf"}:
+            return None, "UNSUPPORTED_UPLOAD_FILE_TYPE"
+
+        if suffix == ".txt":
+            try:
+                text = path.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                text = path.read_text(encoding="latin-1")
+            except Exception:
+                return None, "UPLOAD_TEXT_READ_FAILED"
+            if not text or not text.strip():
+                return None, "UPLOAD_EMPTY_TEXT"
+            return text, None
+
+        # PDF path
+        try:
+            from .web_scraper import PDFExtractor
+
+            text = PDFExtractor.extract_text_from_pdf(str(path))
+            if not text or not text.strip():
+                return None, "UPLOAD_PDF_NO_TEXT"
+            return text, None
+        except Exception:
+            return None, "UPLOAD_PDF_READ_FAILED"
+
     def summarize_news_spec(
         self,
         read: int,
         url: Optional[str] = None,
         text: Optional[str] = None,
+        upload_file_path: Optional[str] = None,
+        upload_filename: Optional[str] = None,
         force_playwright: bool = False,
     ) -> Dict[str, Any]:
         """SOW summarize response: returnStatus, title, summary, optional errorMessage."""
-        doc, err = self.resolve_document_text(read, url, text, force_playwright)
+        doc, err = self.resolve_document_text(
+            read,
+            url,
+            text,
+            upload_file_path=upload_file_path,
+            upload_filename=upload_filename,
+            force_playwright=force_playwright,
+        )
         if err:
             return {
-                "returnStatus": 3 if err == "UPLOAD_NOT_SUPPORTED" else 1,
+                "returnStatus": 1,
                 "title": None,
                 "summary": None,
                 "errorMessage": err,
@@ -916,13 +966,22 @@ class IA:
         url: Optional[str] = None,
         text: Optional[str] = None,
         category: Optional[str] = None,
+        upload_file_path: Optional[str] = None,
+        upload_filename: Optional[str] = None,
         force_playwright: bool = False,
     ) -> Dict[str, Any]:
         """SOW classify response: returnStatus, category, scenario, optional errorMessage."""
-        doc, err = self.resolve_document_text(read, url, text, force_playwright)
+        doc, err = self.resolve_document_text(
+            read,
+            url,
+            text,
+            upload_file_path=upload_file_path,
+            upload_filename=upload_filename,
+            force_playwright=force_playwright,
+        )
         if err:
             return {
-                "returnStatus": 3 if err == "UPLOAD_NOT_SUPPORTED" else 1,
+                "returnStatus": 1,
                 "category": None,
                 "scenario": None,
                 "errorMessage": err,

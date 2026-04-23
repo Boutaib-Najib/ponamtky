@@ -132,12 +132,6 @@ def parse_summarize_payload(data: Any) -> SummarizePayload:
             _validate_url_field(url, errors)
         elif read == ReadMode.FROM_TEXT:
             _validate_text_field(text if isinstance(text, str) else None, errors)
-        elif read == ReadMode.UPLOAD:
-            _append(
-                errors,
-                "read",
-                "read=3 (upload) is not supported yet; omit or use read=1 or read=2.",
-            )
 
     if errors:
         raise PayloadValidationError(errors)
@@ -177,12 +171,6 @@ def parse_classify_payload(data: Any) -> ClassifyPayload:
             _validate_url_field(url, errors)
         elif read == ReadMode.FROM_TEXT:
             _validate_text_field(text if isinstance(text, str) else None, errors)
-        elif read == ReadMode.UPLOAD:
-            _append(
-                errors,
-                "read",
-                "read=3 (upload) is not supported yet; omit or use read=1 or read=2.",
-            )
 
     if policy == Policy.SCENARIO_ONLY and not category:
         _append(
