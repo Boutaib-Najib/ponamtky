@@ -7,7 +7,14 @@ from the config/prompts directory.
 import os
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from typing import Dict, Any
+from typing import Any
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
 
 
 class PromptTemplateLoader:
@@ -32,12 +39,15 @@ class PromptTemplateLoader:
                 f"Templates directory not found: {self.templates_dir}"
             )
         
+        auto_reload = _env_bool("PROMPTS_AUTO_RELOAD", True)
+
         # Create Jinja2 environment
         self.env = Environment(
             loader=FileSystemLoader(str(self.templates_dir)),
             autoescape=select_autoescape(['html', 'xml']),
             trim_blocks=True,
-            lstrip_blocks=True
+            lstrip_blocks=True,
+            auto_reload=auto_reload,
         )
     
     def render(self, template_name: str, **kwargs: Any) -> str:

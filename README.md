@@ -23,3 +23,10 @@ cp .env.example .env   # set OPENAI_API_KEY
 - Classify: `POST /api/news-classifier/classify-news`
 - Summarize: `POST /api/news-classifier/summarize-news`
 
+## Prompt template reload behavior
+
+- Prompt templates are Jinja2 files loaded from `PROMPTS_PATH`.
+- By default, template auto-reload is enabled (`PROMPTS_AUTO_RELOAD=true` behavior).
+- When a `.jinja2` prompt file changes, the server picks up the new version on the next request using that template (no server restart required).
+- You can disable this by setting `PROMPTS_AUTO_RELOAD=false` in `.env`.
+
