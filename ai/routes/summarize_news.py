@@ -7,7 +7,7 @@ from flask import jsonify, request
 from shared.enums import ReadMode
 
 from ..blueprint import news_classifier_bp
-from ..deps import get_ia
+from ..deps import ProviderUnavailableError, get_ia
 from ..uploads import save_validated_upload
 from ..validators import PayloadValidationError, parse_summarize_payload
 
@@ -40,7 +40,12 @@ def summarize_news():
             if upload_error:
                 return jsonify({"errors": [{"field": "file", "message": upload_error}]}), 400
 
-        result = get_ia().summarize_news_spec(
+        try:
+            ia = get_ia(payload.provider)
+        except ProviderUnavailableError as exc:
+            return jsonify({"errors": [{"field": "provider", "message": str(exc)}]}), 404
+
+        result = ia.summarize_news_spec(
             read=payload.read.value,
             url=payload.url,
             text=payload.text,

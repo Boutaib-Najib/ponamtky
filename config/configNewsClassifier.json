@@ -28,6 +28,35 @@
           }
         }
       ]
+    },
+    {
+      "name": "openai-v2",
+      "services": [
+        {
+          "name": "completion",
+          "key": "ENV:OPENAI_API_KEY",
+          "url": "https://api.openai.com/v1/chat/completions",
+          "model": "gpt-4o",
+          "maxNbWord": 4000,
+          "timeout": {
+            "connect": 10,
+            "read": 30,
+            "write": 30
+          }
+        },
+        {
+          "name": "embedding",
+          "key": "ENV:OPENAI_API_KEY",
+          "url": "https://api.openai.com/v1/embeddings",
+          "model": "text-embedding-3-small",
+          "maxNbWord": 4000,
+          "timeout": {
+            "connect": 10,
+            "read": 30,
+            "write": 30
+          }
+        }
+      ]
     }
   ],
   "usages": [

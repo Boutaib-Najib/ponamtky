@@ -36,8 +36,13 @@ class IA:
     Supporte OpenAI provider
     """
     
-    def __init__(self, config_path: Optional[str] = None, provider_type: Optional[str] = None,
-                 prompt_repetition: bool = False):
+    def __init__(
+        self,
+        config_path: Optional[str] = None,
+        provider_type: Optional[str] = None,
+        prompt_repetition: bool = False,
+        allow_fallback: bool = True,
+    ):
         """
         Initialise la classe IA avec la configuration
         
@@ -54,27 +59,43 @@ class IA:
         self.config = ConfigManager(config_path)
         self._config_dir = Path(self.config.config_path).resolve().parent
         
-        # Détermine le provider à utiliser
-        if provider_type is None:
-            provider_type = self.config.get_default_provider_type()
-        
-        logger.info(f"Initializing IA with provider: {provider_type}")
-        
-        # Récupère la config du provider
-        provider_config = self.config.get_provider_config(provider_type)
-        
-        # Initialise le provider
+        requested_provider = provider_type or self.config.get_default_provider_type()
+        resolved_provider = self.config.resolve_provider_name(requested_provider)
+        if not resolved_provider:
+            raise ValueError(f"Provider '{requested_provider}' not found in config")
+
+        logger.info(f"Initializing IA with provider: {resolved_provider}")
+
+        provider_config = self.config.get_provider_config(resolved_provider)
+        provider_kind = self.config.get_provider_type(resolved_provider)
+
         try:
-            self.provider: BaseLLMProvider = get_provider(provider_type, provider_config)
+            self.provider: BaseLLMProvider = get_provider(provider_kind, provider_config)
             if not self.provider.is_available():
-                logger.warning(f"Provider {provider_type} is not available, falling back to OpenAI")
-                provider_config = self.config.get_provider_config("openai")
-                self.provider = get_provider("openai", provider_config)
+                if allow_fallback and resolved_provider.lower() != "openai":
+                    logger.warning(
+                        f"Provider {resolved_provider} is not available, falling back to OpenAI"
+                    )
+                    fallback_config = self.config.get_provider_config("openai")
+                    self.provider = get_provider("openai", fallback_config)
+                    provider_config = fallback_config
+                    self.provider_name = "openai"
+                    self.provider_kind = "openai"
+                else:
+                    raise ValueError(f"Provider '{resolved_provider}' is not available")
+            else:
+                self.provider_name = resolved_provider
+                self.provider_kind = provider_kind
         except Exception as e:
-            logger.error(f"Failed to initialize provider {provider_type}: {e}")
+            if not allow_fallback:
+                raise ValueError(str(e)) from e
+            logger.error(f"Failed to initialize provider {resolved_provider}: {e}")
             logger.info("Falling back to OpenAI provider")
-            provider_config = self.config.get_provider_config("openai")
-            self.provider = get_provider("openai", provider_config)
+            fallback_config = self.config.get_provider_config("openai")
+            self.provider = get_provider("openai", fallback_config)
+            provider_config = fallback_config
+            self.provider_name = "openai"
+            self.provider_kind = "openai"
         
         # Get max word limit from provider config
         self.ai_max_nb_word = provider_config.get("max_nb_word", 4000)

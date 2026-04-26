@@ -12,6 +12,7 @@ class SummarizePayload:
     read: ReadMode
     url: Optional[str]
     text: Optional[str]
+    provider: Optional[str]
 
 
 @dataclass
@@ -21,6 +22,7 @@ class ClassifyPayload:
     url: Optional[str]
     text: Optional[str]
     category: Optional[str]
+    provider: Optional[str]
 
 
 class PayloadValidationError(Exception):
@@ -120,6 +122,10 @@ def parse_summarize_payload(data: Any) -> SummarizePayload:
 
     read = _parse_read_mode(data.get("read"), errors)
     url = _optional_str(data.get("url"))
+    provider_raw = data.get("provider")
+    provider = _optional_str(provider_raw)
+    if provider_raw is not None and not isinstance(provider_raw, str):
+        _append(errors, "provider", "Field 'provider' must be a string when provided.")
     text = data.get("text")
     if text is not None and not isinstance(text, str):
         _append(errors, "text", "Field 'text' must be a string when provided.")
@@ -137,7 +143,12 @@ def parse_summarize_payload(data: Any) -> SummarizePayload:
         raise PayloadValidationError(errors)
 
     assert read is not None
-    return SummarizePayload(read=read, url=url, text=text if isinstance(text, str) else None)
+    return SummarizePayload(
+        read=read,
+        url=url,
+        text=text if isinstance(text, str) else None,
+        provider=provider,
+    )
 
 
 def parse_classify_payload(data: Any) -> ClassifyPayload:
@@ -154,6 +165,10 @@ def parse_classify_payload(data: Any) -> ClassifyPayload:
 
     url = _optional_str(data.get("url"))
     text = data.get("text")
+    provider_raw = data.get("provider")
+    provider = _optional_str(provider_raw)
+    if provider_raw is not None and not isinstance(provider_raw, str):
+        _append(errors, "provider", "Field 'provider' must be a string when provided.")
     if text is not None and not isinstance(text, str):
         _append(errors, "text", "Field 'text' must be a string when provided.")
         text = None
@@ -189,4 +204,5 @@ def parse_classify_payload(data: Any) -> ClassifyPayload:
         url=url,
         text=text if isinstance(text, str) else None,
         category=category,
+        provider=provider,
     )

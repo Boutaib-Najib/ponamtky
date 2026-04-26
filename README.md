@@ -22,6 +22,8 @@ cp .env.example .env   # set OPENAI_API_KEY
 - Health: `GET /api/health`
 - Classify: `POST /api/news-classifier/classify-news`
 - Summarize: `POST /api/news-classifier/summarize-news`
+- Optional request field: `provider` (string). If omitted, requests use `openai`.
+- If a provided `provider` is unknown or unavailable, the API returns `404`.
 
 ## Prompt template reload behavior
 

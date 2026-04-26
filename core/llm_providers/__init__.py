@@ -2,15 +2,15 @@
 LLM Provider System - Support multiple LLM backends
 
 Supported providers:
-- OpenAI (ChatGPT)
+- OpenAI-compatible APIs
 """
 
 from .base_provider import BaseLLMProvider
-from .openai_provider import OpenAIProvider
+from .openai_provider import OpenAICompatibleProvider
 
 __all__ = [
     'BaseLLMProvider',
-    'OpenAIProvider',
+    'OpenAICompatibleProvider',
     'get_provider'
 ]
 
@@ -26,11 +26,14 @@ def get_provider(provider_type: str, config: dict) -> BaseLLMProvider:
     Returns:
         Instance of appropriate provider
     """
+    normalized = provider_type.lower()
     providers = {
-        'openai': OpenAIProvider,
+        'openai': OpenAICompatibleProvider,
+        'openai_compatible': OpenAICompatibleProvider,
+        'openai-compatible': OpenAICompatibleProvider,
     }
-    
-    provider_class = providers.get(provider_type.lower())
+
+    provider_class = providers.get(normalized)
     if not provider_class:
         raise ValueError(f"Unknown provider type: {provider_type}. Available: {list(providers.keys())}")
     

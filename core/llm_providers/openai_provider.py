@@ -1,5 +1,5 @@
 """
-OpenAI Provider - ChatGPT API implementation
+OpenAI-compatible Provider implementation.
 """
 
 import logging
@@ -13,16 +13,16 @@ from .base_provider import BaseLLMProvider
 logger = logging.getLogger(__name__)
 
 
-class OpenAIProvider(BaseLLMProvider):
-    """Provider for OpenAI ChatGPT API"""
+class OpenAICompatibleProvider(BaseLLMProvider):
+    """Provider for OpenAI-compatible chat/embedding APIs."""
     
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
         self.api_key = self._resolve_api_key(config.get("api_key", ""))
-        self.api_url = config.get("api_completion_url", "https://api.openai.com/v1/chat/completions")
-        self.embedding_url = config.get("api_embedding_url", "https://api.openai.com/v1/embeddings")
-        self.model = config.get("model", "gpt-4o")
-        self.embedding_model = config.get("embedding_model", "text-embedding-3-small")
+        self.api_url = config.get("api_completion_url", "")
+        self.embedding_url = config.get("api_embedding_url", "")
+        self.model = config.get("model", "")
+        self.embedding_model = config.get("embedding_model", "")
         self.timeout = config.get("timeout", {"connect": 10, "read": 30})
     
     @staticmethod
@@ -43,7 +43,7 @@ class OpenAIProvider(BaseLLMProvider):
         temperature: float = 0.7,
         max_tokens: Optional[int] = None
     ) -> Optional[str]:
-        """Generate completion using OpenAI API"""
+        """Generate completion using an OpenAI-compatible API."""
         try:
             request_body = {
                 "model": self.model,
@@ -78,21 +78,21 @@ class OpenAIProvider(BaseLLMProvider):
                 response_json = response.json()
                 return response_json["choices"][0]["message"]["content"]
             else:
-                logger.error(f"OpenAI API error: {response.status_code} - {response.text}")
+                logger.error(f"OpenAI-compatible API error: {response.status_code} - {response.text}")
                 return None
                 
         except requests.exceptions.Timeout:
-            logger.error("OpenAI request timed out")
+            logger.error("OpenAI-compatible request timed out")
             return None
         except requests.exceptions.RequestException as e:
-            logger.error(f"OpenAI network error: {e}")
+            logger.error(f"OpenAI-compatible network error: {e}")
             return None
         except Exception as e:
-            logger.error(f"OpenAI unexpected error: {e}")
+            logger.error(f"OpenAI-compatible unexpected error: {e}")
             return None
     
     def embed(self, text: str) -> Optional[List[float]]:
-        """Generate embeddings using OpenAI API"""
+        """Generate embeddings using an OpenAI-compatible API."""
         try:
             request_body = {
                 "model": self.embedding_model,
@@ -120,19 +120,19 @@ class OpenAIProvider(BaseLLMProvider):
                 response_json = response.json()
                 return response_json["data"][0]["embedding"]
             else:
-                logger.error(f"OpenAI embedding error: {response.status_code} - {response.text}")
+                logger.error(f"OpenAI-compatible embedding error: {response.status_code} - {response.text}")
                 return None
                 
         except Exception as e:
-            logger.error(f"OpenAI embedding error: {e}")
+            logger.error(f"OpenAI-compatible embedding error: {e}")
             return None
     
     def is_available(self) -> bool:
-        """Check if OpenAI API is properly configured"""
-        return bool(self.api_key and self.api_url)
+        """Check if provider is properly configured."""
+        return bool(self.api_key and self.api_url and self.model)
     
     def get_cost_estimate(self, input_tokens: int, output_tokens: int) -> float:
-        """Estimate cost for OpenAI API"""
+        """Estimate cost for OpenAI-style pricing."""
         # GPT-4o pricing (as of 2024)
         cost_per_1k_input = 0.005  # $5 per 1M tokens
         cost_per_1k_output = 0.015  # $15 per 1M tokens

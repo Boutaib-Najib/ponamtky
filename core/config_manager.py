@@ -130,6 +130,8 @@ class ConfigManager:
         return usage_list
 
     def get_default_provider_type(self) -> str:
+        if self.resolve_provider_name("openai"):
+            return "openai"
         providers = self.config.get("providers", [])
         if isinstance(providers, list):
             for provider in providers:
@@ -137,6 +139,33 @@ class ConfigManager:
                 if isinstance(name, str) and name:
                     return name
         return "openai"
+
+    def resolve_provider_name(self, provider_name: str) -> Optional[str]:
+        providers = self.config.get("providers", [])
+        if not isinstance(provider_name, str) or not provider_name.strip():
+            return None
+        wanted = provider_name.strip().lower()
+        if isinstance(providers, list):
+            for provider in providers:
+                if not isinstance(provider, dict):
+                    continue
+                name = provider.get("name")
+                if isinstance(name, str) and name.strip().lower() == wanted:
+                    return name
+        return None
+
+    def get_provider_names(self) -> List[str]:
+        providers = self.config.get("providers", [])
+        if not isinstance(providers, list):
+            return []
+        names: List[str] = []
+        for provider in providers:
+            if not isinstance(provider, dict):
+                continue
+            name = provider.get("name")
+            if isinstance(name, str) and name.strip():
+                names.append(name.strip())
+        return names
 
     def _find_usage(self, usage_name: str) -> Optional[Dict[str, Any]]:
         usages = self.config.get("usages", [])
@@ -153,20 +182,32 @@ class ConfigManager:
         return None
 
     def _find_provider(self, provider_name: str) -> Optional[Dict[str, Any]]:
+        resolved_name = self.resolve_provider_name(provider_name)
+        if not resolved_name:
+            return None
         providers = self.config.get("providers", [])
         if isinstance(providers, list):
             for provider in providers:
                 if not isinstance(provider, dict):
                     continue
-                if provider.get("name") == provider_name:
+                if provider.get("name") == resolved_name:
                     return provider
             return None
         if isinstance(providers, dict):
-            provider = providers.get(provider_name)
+            provider = providers.get(resolved_name)
             if not isinstance(provider, dict):
                 return None
-            return {"name": provider_name, "services": self._providers_dict_to_array({provider_name: provider})[0]["services"]}
+            return {"name": resolved_name, "services": self._providers_dict_to_array({resolved_name: provider})[0]["services"]}
         return None
+
+    def get_provider_type(self, provider_name: str) -> str:
+        provider = self._find_provider(provider_name)
+        if not provider:
+            return "openai"
+        provider_type = provider.get("type")
+        if isinstance(provider_type, str) and provider_type.strip():
+            return provider_type.strip().lower()
+        return "openai"
 
     def get_provider_config(self, provider_name: str) -> Dict[str, Any]:
         provider = self._find_provider(provider_name)
