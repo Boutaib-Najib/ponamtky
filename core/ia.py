@@ -56,24 +56,24 @@ class IA:
         
         # Détermine le provider à utiliser
         if provider_type is None:
-            provider_type = self.config.config.get("provider", {}).get("type", "openai")
+            provider_type = self.config.get_default_provider_type()
         
         logger.info(f"Initializing IA with provider: {provider_type}")
         
         # Récupère la config du provider
-        provider_config = self._get_provider_config(provider_type)
+        provider_config = self.config.get_provider_config(provider_type)
         
         # Initialise le provider
         try:
             self.provider: BaseLLMProvider = get_provider(provider_type, provider_config)
             if not self.provider.is_available():
                 logger.warning(f"Provider {provider_type} is not available, falling back to OpenAI")
-                provider_config = self._get_provider_config("openai")
+                provider_config = self.config.get_provider_config("openai")
                 self.provider = get_provider("openai", provider_config)
         except Exception as e:
             logger.error(f"Failed to initialize provider {provider_type}: {e}")
             logger.info("Falling back to OpenAI provider")
-            provider_config = self._get_provider_config("openai")
+            provider_config = self.config.get_provider_config("openai")
             self.provider = get_provider("openai", provider_config)
         
         # Get max word limit from provider config
@@ -108,24 +108,6 @@ class IA:
         self._scenarios_data = None
         self._category_index = None
     
-    def _get_provider_config(self, provider_type: str) -> Dict[str, Any]:
-        """
-        Récupère la configuration pour un provider spécifique
-        
-        Args:
-            provider_type: Type de provider
-            
-        Returns:
-            Configuration du provider
-        """
-        providers_config = self.config.config.get("providers", {})
-        if provider_type in providers_config:
-            return providers_config[provider_type]
-        
-        # Config par défaut
-        logger.warning(f"No configuration found for provider: {provider_type}")
-        return {}
-        
     def _load_scenarios(self):
         """
         Lazy-load the scenarios JSON used by classification templates.

@@ -1,7 +1,4 @@
 {
-  "provider": {
-    "type": "openai"
-  },
   "providers": [
     {
       "name": "openai",
