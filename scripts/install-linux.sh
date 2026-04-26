@@ -29,6 +29,9 @@ fi
 
 echo ""
 echo "Done. Next:"
+echo "  # 1) System package installs require sudo (one-time)"
+echo "  #    sudo apt install python3 python3-venv python3-pip"
+echo "  # 2) Run the app as your normal user (NO sudo)"
 echo "  source .venv/bin/activate"
 echo "  cp -n .env.example .env   # then edit OPENAI_API_KEY"
 echo "  ./scripts/run-linux.sh"

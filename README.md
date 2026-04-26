@@ -1,35 +1,25 @@
-# Basic Flask API
+# News Classifier API
 
-This is a minimal Flask API running in a Python virtual environment.
+Flask API for news classification and summarization.
 
-## Setup
-
-1. **Create & activate virtualenv (if not already):**
-
-   ```bash
-   cd /Users/najib/Desktop/ponamtky
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Run the API
-
-With the virtual environment activated:
+## Linux quick start
 
 ```bash
-python app.py
+cd /path/to/ponamtky
+chmod +x scripts/install-linux.sh scripts/run-linux.sh
+./scripts/install-linux.sh
+cp .env.example .env   # set OPENAI_API_KEY
+./scripts/run-linux.sh
 ```
 
-The server will start on `http://127.0.0.1:5000`.
+### Important Linux note
 
-### Example endpoints
+- Use `sudo` only for OS package installation (`apt`, Playwright deps).
+- Do **not** run the server with `sudo`; run `./scripts/run-linux.sh` as your normal user.
 
-- `GET /health` → basic health check
-- `GET /hello` → returns a simple greeting JSON
+## API
+
+- Health: `GET /api/health`
+- Classify: `POST /api/news-classifier/classify-news`
+- Summarize: `POST /api/news-classifier/summarize-news`
 

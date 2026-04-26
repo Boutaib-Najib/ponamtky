@@ -5,6 +5,13 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+  echo "Do not run this script with sudo/root."
+  echo "Playwright Firefox requires a HOME owned by the current user."
+  echo "Run as your normal user: ./scripts/run-linux.sh"
+  exit 1
+fi
+
 if [[ ! -f .venv/bin/activate ]]; then
   echo "Run scripts/install-linux.sh first."
   exit 1
@@ -14,9 +21,12 @@ fi
 source .venv/bin/activate
 
 if [[ -f .env ]]; then
+  tmp_env="$(mktemp)"
+  trap 'rm -f "$tmp_env"' EXIT
+  tr -d '\r' < .env > "$tmp_env"
   set -a
   # shellcheck source=/dev/null
-  source .env
+  source "$tmp_env"
   set +a
 fi
 
