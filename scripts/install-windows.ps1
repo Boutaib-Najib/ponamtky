@@ -24,6 +24,6 @@ python -m playwright install firefox
 Write-Host ""
 Write-Host "Done. Next:"
 Write-Host "  .\.venv\Scripts\Activate.ps1"
-Write-Host "  set OPENAI_API_KEY using $env:OPENAI_API_KEY=<your_api_key_here>"
-Write-Host "  set PROMPTS_PATH using $env:PROMPTS_PATH=<your_api_key_here>"
+Write-Host "  copy .env.example .env"
+Write-Host "  notepad .env   # set OPENAI_API_KEY and optional values"
 Write-Host "  .\scripts\run-windows.ps1"

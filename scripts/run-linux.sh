@@ -13,6 +13,13 @@ fi
 # shellcheck source=/dev/null
 source .venv/bin/activate
 
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source .env
+  set +a
+fi
+
 BIND="${BIND:-0.0.0.0:5009}"
 WORKERS="${WORKERS:-1}"
 THREADS="${THREADS:-8}"

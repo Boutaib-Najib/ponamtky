@@ -19,6 +19,7 @@ cp .env.example .env   # edit OPENAI_API_KEY
 ```
 
 `install-linux.sh` runs `sudo … playwright install-deps firefox` so the OS has libraries for headless Firefox.
+`run-linux.sh` and `run-windows.ps1` also load environment variables from the repo-root `.env` automatically before starting the server.
 
 Optional environment for `run-linux.sh`:
 
