@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
 
-from .enums import Policy, ReadMode
+from shared.enums import Policy, ReadMode
 
 
 @dataclass

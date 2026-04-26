@@ -4,9 +4,10 @@ import os
 
 from flask import jsonify, request
 
+from shared.enums import ReadMode
+
 from ..blueprint import news_classifier_bp
 from ..deps import get_ia
-from ..enums import ReadMode
 from ..uploads import save_validated_upload
 from ..validators import PayloadValidationError, parse_summarize_payload
 

@@ -1,4 +1,4 @@
-"""API enums for news-classifier payloads (camelCase JSON values match SOW)."""
+"""Shared enums used by API and core modules."""
 
 from enum import IntEnum
 

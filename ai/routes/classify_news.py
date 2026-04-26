@@ -4,9 +4,10 @@ import os
 
 from flask import jsonify, request
 
+from shared.enums import ReadMode
+
 from ..blueprint import news_classifier_bp
 from ..deps import get_ia
-from ..enums import ReadMode
 from ..uploads import save_validated_upload
 from ..validators import PayloadValidationError, parse_classify_payload
 
@@ -41,7 +42,7 @@ def classify_news():
 
         result = get_ia().classify_news_spec(
             read=payload.read.value,
-            policy=payload.policy.value,
+            policy=payload.policy,
             url=payload.url,
             text=payload.text,
             category=payload.category,

@@ -17,6 +17,8 @@ import unicodedata
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Tuple
 
+from shared.enums import Policy
+
 from .config_manager import ConfigManager
 from .utils import chunk_text_by_words, trim_to_word_limit, is_empty
 from .llm_providers import get_provider, BaseLLMProvider
@@ -962,7 +964,7 @@ class IA:
     def classify_news_spec(
         self,
         read: int,
-        policy: int,
+        policy: Policy,
         url: Optional[str] = None,
         text: Optional[str] = None,
         category: Optional[str] = None,
@@ -971,6 +973,16 @@ class IA:
         force_playwright: bool = False,
     ) -> Dict[str, Any]:
         """SOW classify response: returnStatus, category, scenario, optional errorMessage."""
+        try:
+            policy = policy if isinstance(policy, Policy) else Policy(int(policy))
+        except (TypeError, ValueError):
+            return {
+                "returnStatus": 1,
+                "category": None,
+                "scenario": None,
+                "errorMessage": "INVALID_POLICY",
+            }
+
         doc, err = self.resolve_document_text(
             read,
             url,
@@ -996,13 +1008,13 @@ class IA:
             }
         text_to_classify = summary
 
-        if policy == 0:
+        if policy == Policy.CATEGORY_ONLY:
             raw = self._classify_text(text_to_classify, "category")
             parsed = self._parse_classification_response(raw)
             code = (parsed or {}).get("categoryCode") if parsed else None
-            return {"returnStatus": 0, "category": code, "scenario": None}
+            return {"returnStatus": 0, "category": code}
 
-        if policy == 1:
+        if policy == Policy.SCENARIO_ONLY:
             if not category or not isinstance(category, str):
                 return {
                     "returnStatus": 1,
@@ -1015,9 +1027,9 @@ class IA:
             )
             parsed = self._parse_classification_response(raw)
             scen = (parsed or {}).get("scenarioCode") if parsed else None
-            return {"returnStatus": 0, "category": None, "scenario": scen}
+            return {"returnStatus": 0, "category": category, "scenario": scen}
 
-        if policy == 2:
+        if policy == Policy.CATEGORY_AND_SCENARIO:
             r = self.classifyLite(text_to_classify, "scenario")
             if not r.get("success"):
                 return {
