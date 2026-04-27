@@ -3,6 +3,8 @@
 from pathlib import Path
 from typing import Dict, Optional
 
+import logging
+
 from core.config_manager import ConfigManager
 from core.ia import IA
 
@@ -12,6 +14,8 @@ _config_path = str(_config if _config.exists() else _base_dir / "config" / "conf
 _config_manager = ConfigManager(config_path=_config_path)
 _ia_by_provider: Dict[str, IA] = {}
 _provider_errors: Dict[str, str] = {}
+
+logger = logging.getLogger(__name__)
 
 
 class ProviderUnavailableError(Exception):
@@ -27,8 +31,10 @@ def _initialize_all_providers() -> None:
                 provider_type=provider_name,
                 allow_fallback=False,
             )
+            logger.info("Provider initialized: %s", provider_name)
         except Exception as exc:
             _provider_errors[cache_key] = str(exc)
+            logger.warning("Provider failed to initialize: %s (%s)", provider_name, exc)
 
 
 _initialize_all_providers()

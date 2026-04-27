@@ -3,11 +3,12 @@ import os
 from flask import Flask, jsonify
 from dotenv import load_dotenv
 
-from ai import news_classifier_bp
+from core.logging_config import configure_logging
 
 
 def create_app() -> Flask:
     load_dotenv()
+    configure_logging()
 
     app = Flask(__name__)
     max_upload_mb = int(os.getenv("MAX_UPLOAD_MB", "20"))
@@ -29,6 +30,10 @@ def create_app() -> Flask:
                 ]
             }
         ), 413
+
+    # Import after logging/.env are configured so startup logs are formatted
+    # and env-dependent initialization (providers, prompts) sees the right env.
+    from ai import news_classifier_bp
 
     app.register_blueprint(news_classifier_bp)
 

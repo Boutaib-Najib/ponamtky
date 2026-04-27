@@ -25,8 +25,6 @@ from .llm_providers import get_provider, BaseLLMProvider
 from .media_config import MediaConfig
 from .web_scraper import WebScraper
 
-# Configuration du logger
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -86,6 +84,12 @@ class IA:
             else:
                 self.provider_name = resolved_provider
                 self.provider_kind = provider_kind
+                logger.info(
+                    "Provider ready: %s (type=%s, model=%s)",
+                    self.provider_name,
+                    self.provider_kind,
+                    provider_config.get("model") or provider_config.get("embedding_model") or "",
+                )
         except Exception as e:
             if not allow_fallback:
                 raise ValueError(str(e)) from e
