@@ -10,17 +10,42 @@ No Docker: install Python, dependencies, Playwright Firefox, then run a producti
 
 ## Linux
 
+### 0) System packages (sudo required)
+
+Installing OS packages requires root privileges. Use `sudo` for these commands only.
+
+Debian/Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install -y python3 python3-venv python3-pip
+```
+
+If you specifically need Python 3.12 on your distro, install the distro’s `python3.12` packages (names vary). The project itself does not require “exactly 3.12” as long as `python -m venv` works.
+
+### 1) Install project dependencies (run as normal user)
+
 ```bash
 cd /path/to/ponamtky
 chmod +x scripts/install-linux.sh scripts/run-linux.sh
 ./scripts/install-linux.sh
-cp .env.example .env   # edit OPENAI_API_KEY
+cp .env.example .env
+nano .env   # set OPENAI_API_KEY and PROMPTS_PATH
 ./scripts/run-linux.sh
 ```
 
 `install-linux.sh` runs `sudo … playwright install-deps firefox` so the OS has libraries for headless Firefox.
 `run-linux.sh` and `run-windows.ps1` also load environment variables from the repo-root `.env` automatically before starting the server.
 Run `./scripts/run-linux.sh` as a normal user (no `sudo`), otherwise Playwright Firefox can fail with HOME ownership errors.
+
+### 2) Configure `.env`
+
+At minimum, set:
+
+- `OPENAI_API_KEY`
+- `PROMPTS_PATH` (absolute path to the `prompts/` directory)
+
+Optional variables are documented in `.env.example`.
 
 Optional environment for `run-linux.sh`:
 
@@ -30,6 +55,29 @@ Optional environment for `run-linux.sh`:
 | `WORKERS` | `1`            | Gunicorn workers (each = extra RAM + browsers) |
 | `THREADS` | `8`            | Thread pool per worker     |
 | `TIMEOUT` | `300`          | Request timeout (seconds)  |
+
+### Troubleshooting (Linux)
+
+#### `Permission denied` installing `python3-venv` / `python3.12-venv`
+
+- This is a system package install; it **requires `sudo`** (or an admin).
+- After installing packages, **run the app as a normal user** (no `sudo`).
+
+#### `.env: line X: $'\\r': command not found`
+
+Your `.env` uses Windows CRLF line endings. The run script is tolerant, but you can fix the file:
+
+```bash
+sed -i 's/\r$//' .env
+```
+
+#### Playwright Firefox fails with `$HOME` ownership error
+
+You are running as root. Stop the process and rerun without `sudo`:
+
+```bash
+./scripts/run-linux.sh
+```
 
 ### systemd (example)
 
