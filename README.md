@@ -70,6 +70,10 @@ The server reads environment variables from the repo-root `.env` (loaded by the 
 
 - **`MAX_UPLOAD_MB`** (default `20`): maximum multipart upload size (applies to `read=3` upload flow).
 - **`PROMPTS_AUTO_RELOAD`** (default `true`): if `true`, Jinja reloads changed templates automatically.
+- **`AI_AUTH_ENABLED`** (default `true`): enable API key auth for `/api/news-classifier/*`.
+- **`AI_AUTH_KEYS_FILE`**: path to a newline-delimited text file of allowed API keys.
+- **`AI_AUTH_REFRESH_SECONDS`** (default `300`): how often the keys file is reloaded (seconds).
+- **`LOG_LEVEL`** (default `INFO`): logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`).
 
 ### Optional (Linux runner / Gunicorn)
 
@@ -97,6 +101,13 @@ Used by `scripts/run-windows.ps1`:
 ## HTTP API
 
 Base prefix: `/api/news-classifier`
+
+### Authentication
+
+- **Header**: `X-AUTH-API-KEY: <key>`
+- The key must exist as an exact line in the file at `AI_AUTH_KEYS_FILE` (blank lines and `#` comments are ignored).
+- If the key is missing/invalid, endpoints return **401**.
+- The server reloads the keys from disk automatically (default every 5 minutes).
 
 ### `GET /api/health`
 
